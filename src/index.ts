@@ -12,7 +12,7 @@ import { Scanner } from './scanner/scanner';
     await logger.setup();
 
     const scanner = container.get(Scanner);
-    await scanner.crawl();
+    await scanner.scan();
 })().catch((error) => {
     console.log('Exception thrown in action: ', error);
     process.exit(1);

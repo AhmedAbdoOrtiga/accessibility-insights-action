@@ -34,18 +34,24 @@ export class Scanner {
             const baseUrl = await this.fileServer.start();
             scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
 
-            this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
-
             var util = require('util');
             var exec = util.promisify(require('child_process').exec);
-            const { stdout, stderr } = await exec(`ai-scan --url ${scanUrl} --crawl true --restart`);
-            console.log(stderr);
-            console.log(stdout);
+            await exec(`ai-scan --url ${scanUrl} --crawl true --restart`, (err: string, stdout: string, stderr: string) => {
+                if (err) {
+                    // node couldn't execute the command
+                    return;
+                }
+
+                // the *entire* stdout and stderr (buffered)
+                console.log(`console out: ${stdout}`);
+                console.log(`console err: ${stderr}`);
+                this.logger.logInfo(`log out: ${stdout}`);
+                this.logger.logInfo(`log err: ${stderr}`);
+            });
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
         } finally {
             this.fileServer.stop();
-            this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
         }
     }
 
