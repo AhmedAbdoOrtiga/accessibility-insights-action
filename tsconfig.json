@@ -11,7 +11,8 @@
         "sourceMap": true,
         "declaration": true,
         "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "outDir": "dist"
     },
     "awesomeTypescriptLoaderOptions": {
         "usePrecompiledFiles": true,
