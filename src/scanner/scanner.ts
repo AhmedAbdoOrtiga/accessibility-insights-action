@@ -38,8 +38,9 @@ export class Scanner {
 
             var util = require('util');
             var exec = util.promisify(require('child_process').exec);
-             await exec(`ai-scan --url ${scanUrl} --crawl true --restart`);
-
+            const { stdout, stderr } = await exec(`ai-scan --url ${scanUrl} --crawl true --restart`);
+            console.log(stderr);
+            console.log(stdout);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
         } finally {
