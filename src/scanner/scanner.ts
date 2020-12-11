@@ -27,6 +27,27 @@ export class Scanner {
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
     ) {}
 
+    public async crawl(): Promise<void> {
+        let scanUrl: string;
+
+        try {
+            const baseUrl = await this.fileServer.start();
+            scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
+
+            this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
+
+            var util = require('util');
+            var exec = util.promisify(require('child_process').exec);
+             await exec(`ai-scan --url ${scanUrl} --crawl true --restart`);
+
+        } catch (error) {
+            this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
+        } finally {
+            this.fileServer.stop();
+            this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
+        }
+    }
+
     public async scan(): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/require-await
         await this.promiseUtils.waitFor(this.invokeScan(), 90000, async () => {
