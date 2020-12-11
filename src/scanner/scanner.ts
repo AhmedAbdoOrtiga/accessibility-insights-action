@@ -43,10 +43,8 @@ export class Scanner {
                 }
 
                 // the *entire* stdout and stderr (buffered)
-                console.log(`console out: ${stdout}`);
-                console.log(`console err: ${stderr}`);
-                this.logger.logInfo(`log out: ${stdout}`);
-                this.logger.logInfo(`log err: ${stderr}`);
+                this.logger.logInfo(`${stdout}`);
+                this.logger.logInfo(`${stderr}`);
             });
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
