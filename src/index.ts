@@ -23,7 +23,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 async function ls() {
-  const { stdout, stderr } = await exec('ls');
+  const { stdout, stderr } = await exec('ai-scan --url https://github.com/');
   console.log('stdout:', stdout);
   console.log('stderr:', stderr);
 }
