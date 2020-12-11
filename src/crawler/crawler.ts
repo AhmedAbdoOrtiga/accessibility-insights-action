@@ -62,4 +62,6 @@ export class Crawler {
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
         }
     }
+
+
 }

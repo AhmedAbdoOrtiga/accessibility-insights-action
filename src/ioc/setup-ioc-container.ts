@@ -14,9 +14,11 @@ import { Scanner } from '../scanner/scanner';
 import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
 import { Crawler } from '../crawler/crawler';
+import { AICrawler } from 'accessibility-insights-scan-local';
 
 export function setupIocContainer(): inversify.Container {
     const container = new inversify.Container({ autoBindInjectable: true });
+    container.bind(AICrawler).toConstantValue(new AICrawler(container));
     container.bind(Scanner).toSelf().inSingletonScope();
     container.bind(Crawler).toSelf().inSingletonScope();
 
