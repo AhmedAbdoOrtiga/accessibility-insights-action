@@ -36,7 +36,7 @@ export class Scanner {
 
             var util = require('util');
             var exec = util.promisify(require('child_process').exec);
-            await exec(`ai-scan --url ${scanUrl} --crawl true --restart`, (err: string, stdout: string, stderr: string) => {
+            exec(`ai-scan --url ${scanUrl} --crawl true --restart`, (err: string, stdout: string, stderr: string) => {
                 if (err) {
                     // node couldn't execute the command
                     return;
