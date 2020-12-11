@@ -13,10 +13,12 @@ import { Logger } from '../logger/logger';
 import { Scanner } from '../scanner/scanner';
 import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
+import { Crawler } from '../crawler/crawler';
 
 export function setupIocContainer(): inversify.Container {
     const container = new inversify.Container({ autoBindInjectable: true });
     container.bind(Scanner).toSelf().inSingletonScope();
+    container.bind(Crawler).toSelf().inSingletonScope();
 
     container.bind(iocTypes.Console).toConstantValue(console);
     container.bind(iocTypes.Process).toConstantValue(process);

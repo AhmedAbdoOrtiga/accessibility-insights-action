@@ -4,15 +4,15 @@ import 'reflect-metadata';
 
 import { setupIocContainer } from './ioc/setup-ioc-container';
 import { Logger } from './logger/logger';
-import { Scanner } from './scanner/scanner';
+import { Crawler } from './crawler/crawler';
 
 (async () => {
     const container = setupIocContainer();
     const logger = container.get(Logger);
     await logger.setup();
 
-    const scanner = container.get(Scanner);
-    await scanner.scan();
+    const crawler = container.get(Crawler);
+    await crawler.run();
 })().catch((error) => {
     console.log('Exception thrown in action: ', error);
     process.exit(1);
