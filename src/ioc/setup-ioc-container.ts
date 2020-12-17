@@ -13,9 +13,12 @@ import { Logger } from '../logger/logger';
 import { Scanner } from '../scanner/scanner';
 import { TaskConfig } from '../task-config';
 import { iocTypes } from './ioc-types';
+import { setupCliContainer } from 'accessibility-insights-scan-local';
 
 export function setupIocContainer(): inversify.Container {
     const container = new inversify.Container({ autoBindInjectable: true });
+    setupCliContainer(container);
+
     container.bind(Scanner).toSelf().inSingletonScope();
 
     container.bind(iocTypes.Console).toConstantValue(console);
