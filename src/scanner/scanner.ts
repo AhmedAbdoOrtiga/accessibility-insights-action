@@ -13,7 +13,7 @@ import { AllProgressReporter } from '../progress-reporter/all-progress-reporter'
 import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
-import { AICrawler } from 'accessibility-insights-scan-local';
+import { AIScanner as AIScannerLocal } from 'accessibility-insights-scan-local';
 
 @injectable()
 export class Scanner {
@@ -26,7 +26,7 @@ export class Scanner {
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
-        @inject(AICrawler) protected readonly crawler: AICrawler,
+        @inject(AIScannerLocal) protected readonly crawler: AIScannerLocal,
     ) {}
 
     public async scan(): Promise<void> {
@@ -37,32 +37,34 @@ export class Scanner {
         let scanUrl: string;
 
         try {
-            // await this.allProgressReporter.start();
-            // const baseUrl = await this.fileServer.start();
-            // scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
+            await this.allProgressReporter.start();
+            const baseUrl = await this.fileServer.start();
+            scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
 
             this.logger.logInfo(`Starting accessibility scanning of URL ${scanUrl}.`);
 
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
-            const baseUrl = 'https://accessibilityinsights.io/';
-            await this.crawler.crawl({
-                crawl: true,
-                restartCrawl: true,
-                baseUrl: baseUrl
-            });
+            // const baseUrl = 'https://accessibilityinsights.io/';
+            // await this.crawler.crawl({
+            //     crawl: true,
+            //     restartCrawl: true,
+            //     baseUrl: baseUrl
+            // });
 
-            const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
+            const axeScanResults = await this.scanner.scan(baseUrl, chromePath, axeCoreSourcePath);
+
+            // const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
             this.reportGenerator.generateReport(axeScanResults);
 
-            // await this.allProgressReporter.completeRun(axeScanResults);
+            await this.allProgressReporter.completeRun(axeScanResults);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
-            // await this.allProgressReporter.failRun(util.inspect(error));
+            await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
-            // this.fileServer.stop();
+            this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
         }
     }

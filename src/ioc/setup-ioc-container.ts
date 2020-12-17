@@ -3,11 +3,11 @@
 import * as github from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { reporterFactory } from 'accessibility-insights-report';
+
 import * as express from 'express';
 import * as getPort from 'get-port';
 import * as inversify from 'inversify';
 import * as serveStatic from 'serve-static';
-
 import { ConsoleLoggerClient } from '../logger/console-logger-client';
 import { Logger } from '../logger/logger';
 import { Scanner } from '../scanner/scanner';
@@ -26,7 +26,7 @@ export function setupIocContainer(): inversify.Container {
     container.bind(iocTypes.GetPort).toConstantValue(getPort);
     container.bind(iocTypes.Express).toConstantValue(express);
     container.bind(iocTypes.ServeStatic).toConstantValue(serveStatic);
-    container.bind(iocTypes.ReporterFactory).toConstantValue(reporterFactory);
+    container.bind(iocTypes.ReportFactory).toConstantValue(reporterFactory);
     container.bind(iocTypes.Github).toConstantValue(github);
 
     container
