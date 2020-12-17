@@ -13,7 +13,6 @@ module.exports = (env) => {
     console.log(`Building for version : ${version}`);
     return {
         devtool: 'cheap-source-map',
-        externals: ['levelup', 'leveldown'],
         entry: {
             ['index']: path.resolve('./src/index.ts'),
         },
@@ -28,6 +27,9 @@ module.exports = (env) => {
                             options: {
                                 transpileOnly: true,
                                 experimentalWatchApi: true,
+                                // configFile: 'tsconfig.json',
+                                logInfoToStdOut: true,
+                                logLevel: 'INFO',
                             },
                         },
                     ],
@@ -45,6 +47,7 @@ module.exports = (env) => {
             libraryTarget: 'commonjs2',
         },
         plugins: [
+            new webpack.ExternalsPlugin("commonjs", ["leveldown"]),
             new webpack.DefinePlugin({
                 __IMAGE_VERSION__: JSON.stringify(version),
             }),

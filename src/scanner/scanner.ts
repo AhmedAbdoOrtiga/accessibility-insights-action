@@ -54,7 +54,7 @@ export class Scanner {
             // });
 
             this.logger.logInfo(`Using local scanner`);
-            const axeScanResults = await this.scanner.scan(baseUrl, chromePath, axeCoreSourcePath);
+            const axeScanResults = await this.crawler.scan(baseUrl, chromePath, axeCoreSourcePath);
 
             // const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
