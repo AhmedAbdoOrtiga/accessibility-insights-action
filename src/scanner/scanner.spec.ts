@@ -65,6 +65,7 @@ describe(Scanner, () => {
             localFileServerMock.object,
             promiseUtilsMock.object,
             processStub,
+            null,
         );
 
         taskConfigMock

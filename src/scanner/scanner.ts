@@ -13,6 +13,7 @@ import { AllProgressReporter } from '../progress-reporter/all-progress-reporter'
 import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
+import { AIScanner as AIScannerLocal } from 'accessibility-insights-scan-local';
 
 @injectable()
 export class Scanner {
@@ -25,14 +26,11 @@ export class Scanner {
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
+        @inject(AIScannerLocal) protected readonly crawler: AIScannerLocal,
     ) {}
 
     public async scan(): Promise<void> {
-        // eslint-disable-next-line @typescript-eslint/require-await
-        await this.promiseUtils.waitFor(this.invokeScan(), 90000, async () => {
-            this.logger.logError('Unable to scan before timeout');
-            this.currentProcess.exit(1);
-        });
+        this.invokeScan();
     }
 
     private async invokeScan(): Promise<void> {
@@ -48,7 +46,17 @@ export class Scanner {
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
-            const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
+            // const baseUrl = 'https://accessibilityinsights.io/';
+            // await this.crawler.crawl({
+            //     crawl: true,
+            //     restartCrawl: true,
+            //     baseUrl: baseUrl
+            // });
+
+            this.logger.logInfo(`Using local scanner`);
+            const axeScanResults = await this.crawler.scan(baseUrl, chromePath, axeCoreSourcePath);
+
+            // const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
             this.reportGenerator.generateReport(axeScanResults);
 
