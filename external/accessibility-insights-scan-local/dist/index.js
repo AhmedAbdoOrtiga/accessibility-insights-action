@@ -107,11 +107,11 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AxeResults = void 0;
+exports.AxeScanResultsHashable = void 0;
 const common_1 = __webpack_require__(/*! common */ "../common/dist/index.js");
-class AxeResults extends common_1.HashSet {
+class AxeScanResultsHashable extends common_1.HashSet {
 }
-exports.AxeResults = AxeResults;
+exports.AxeScanResultsHashable = AxeScanResultsHashable;
 //# sourceMappingURL=axe-result-types.js.map
 
 /***/ }),
@@ -621,11 +621,11 @@ exports.HashGenerator = void 0;
 // Licensed under the MIT License.
 const fnv1a_1 = __importDefault(__webpack_require__(/*! @sindresorhus/fnv1a */ "@sindresorhus/fnv1a"));
 const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-const sha_js_1 = __importDefault(__webpack_require__(/*! sha.js */ "sha.js"));
 const jump_consistent_hash_1 = __webpack_require__(/*! ./jump-consistent-hash */ "../common/dist/ciphers/jump-consistent-hash.js");
+const shajs = __webpack_require__(/*! sha.js */ "sha.js");
 let HashGenerator = class HashGenerator {
-    constructor(sha = sha_js_1.default) {
-        this.sha = sha;
+    constructor(shaObj = shajs) {
+        this.shaObj = shaObj;
     }
     getWebsiteScanResultDocumentId(baseUrl, scanGroupId) {
         // Preserve parameters order below for the hash generation compatibility
@@ -644,7 +644,7 @@ let HashGenerator = class HashGenerator {
     }
     generateBase64Hash(...values) {
         const hashSeed = values.join('|').toLowerCase();
-        return this.sha('sha256').update(hashSeed).digest('hex');
+        return this.shaObj('sha256').update(hashSeed).digest('hex');
     }
 };
 HashGenerator = __decorate([
@@ -3416,17 +3416,13 @@ exports.iocTypes = {
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateHash = void 0;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const sha_js_1 = __importDefault(__webpack_require__(/*! sha.js */ "sha.js"));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateHash = void 0;
 function generateHash(...values) {
     const hashSeed = values.join('|').toLowerCase();
-    const sha = sha_js_1.default;
+    const sha = __webpack_require__(/*! sha.js */ "sha.js");
     return sha('sha256')
         .update(hashSeed)
         .digest('base64')
@@ -4853,230 +4849,10 @@ exports.WebDriver = WebDriver;
 
 /***/ }),
 
-/***/ "./src/axe/axe-info.ts":
-/*!*****************************!*\
-  !*** ./src/axe/axe-info.ts ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AxeInfo = void 0;
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-__webpack_require__(/*! reflect-metadata */ "reflect-metadata");
-const Axe = __importStar(__webpack_require__(/*! axe-core */ "axe-core"));
-const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-let AxeInfo = class AxeInfo {
-    constructor(axe = Axe) {
-        this.axe = axe;
-    }
-    get version() {
-        return this.axe.version;
-    }
-};
-AxeInfo = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [Object])
-], AxeInfo);
-exports.AxeInfo = AxeInfo;
-
-
-/***/ }),
-
-/***/ "./src/crawler-parameters-builder.ts":
-/*!*******************************************!*\
-  !*** ./src/crawler-parameters-builder.ts ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CrawlerParametersBuilder = void 0;
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-const fs_1 = __importDefault(__webpack_require__(/*! fs */ "fs"));
-const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-const common_1 = __webpack_require__(/*! common */ "../common/dist/index.js");
-let CrawlerParametersBuilder = class CrawlerParametersBuilder {
-    constructor(urlObj = common_1.Url, fileSystem = fs_1.default) {
-        this.urlObj = urlObj;
-        this.fileSystem = fileSystem;
-    }
-    build(scanArguments) {
-        if (scanArguments.crawl && scanArguments.url) {
-            this.validateCrawlBaseUrl(scanArguments.url);
-        }
-        const inputUrlSet = new Set();
-        if (scanArguments.inputUrls) {
-            const urls = this.validateInputUrls(scanArguments.inputUrls);
-            urls.forEach((url) => inputUrlSet.add(url));
-        }
-        if (scanArguments.inputFile) {
-            const urls = this.validateInputFileContent(scanArguments.inputFile);
-            urls.forEach((url) => inputUrlSet.add(url));
-        }
-        return {
-            crawl: scanArguments.crawl,
-            baseUrl: scanArguments.url,
-            simulate: scanArguments.simulate,
-            selectors: scanArguments.selectors,
-            localOutputDir: scanArguments.output,
-            maxRequestsPerCrawl: scanArguments.maxUrls,
-            restartCrawl: scanArguments.restart,
-            snapshot: scanArguments.snapshot,
-            memoryMBytes: scanArguments.memoryMBytes,
-            silentMode: scanArguments.silentMode,
-            inputUrls: [...inputUrlSet],
-            discoveryPatterns: scanArguments.discoveryPatterns,
-        };
-    }
-    validateCrawlBaseUrl(url) {
-        if (this.urlObj.hasQueryParameters(url)) {
-            throw new Error(`Crawl base URL should not have any query parameters. ${url}`);
-        }
-    }
-    validateInputFileContent(inputFile) {
-        // eslint-disable-next-line
-        if (!this.fileSystem.existsSync(inputFile)) {
-            throw new Error(`Input file does not exist: ${inputFile}`);
-        }
-        // eslint-disable-next-line
-        const inputUrls = this.fileSystem.readFileSync(inputFile, 'utf-8').split(/\r?\n/);
-        const urls = this.normalizeUrls(inputUrls);
-        if (urls.length === 0) {
-            throw new Error(`Input file does not have any URLs.`);
-        }
-        return urls;
-    }
-    validateInputUrls(inputUrls) {
-        const urls = this.normalizeUrls(inputUrls);
-        if (urls.length === 0) {
-            throw new Error(`Input URLs list does no have any URLs.`);
-        }
-        return urls;
-    }
-    normalizeUrls(urls) {
-        const urlSet = new Set();
-        for (let url of urls) {
-            url = url.trim();
-            if (url.length > 0) {
-                urlSet.add(url);
-            }
-        }
-        return Array.from(urlSet);
-    }
-};
-CrawlerParametersBuilder = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [Object, Object])
-], CrawlerParametersBuilder);
-exports.CrawlerParametersBuilder = CrawlerParametersBuilder;
-
-
-/***/ }),
-
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.setupCliContainer = exports.CrawlerCommandRunner = exports.AIScanner = void 0;
-// import { Crawler } from 'accessibility-insights-crawler';
-// import { DbScanResultReader } from 'accessibility-insights-crawler';
-var ai_scanner_1 = __webpack_require__(/*! ./scanner/ai-scanner */ "./src/scanner/ai-scanner.ts");
-Object.defineProperty(exports, "AIScanner", { enumerable: true, get: function () { return ai_scanner_1.AIScanner; } });
-// export class AICrawler extends Crawler {}
-// export class AIDbScanResultReader extends DbScanResultReader {}
-// export { CrawlerRunOptions } from 'accessibility-insights-crawler';
-// export { Crawler } from 'accessibility-insights-crawler';
-// export { setupCrawlerContainer } from 'accessibility-insights-crawler';
-// export { DataBaseKey, ScanMetadata, ScanResult, ScanResults } from 'accessibility-insights-crawler';
-// export { DbScanResultReader } from 'accessibility-insights-crawler';
-// export { AxeScanResults } from 'scanner-global-library';
-var crawler_command_runner_1 = __webpack_require__(/*! ./runner/crawler-command-runner */ "./src/runner/crawler-command-runner.ts");
-Object.defineProperty(exports, "CrawlerCommandRunner", { enumerable: true, get: function () { return crawler_command_runner_1.CrawlerCommandRunner; } });
-var setup_cli_container_1 = __webpack_require__(/*! ./setup-cli-container */ "./src/setup-cli-container.ts");
-Object.defineProperty(exports, "setupCliContainer", { enumerable: true, get: function () { return setup_cli_container_1.setupCliContainer; } });
-
-
-/***/ }),
-
-/***/ "./src/ioc-types.ts":
-/*!**************************!*\
-  !*** ./src/ioc-types.ts ***!
-  \**************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.iocTypes = void 0;
-exports.iocTypes = {
-    ReporterFactory: 'ReporterFactory',
-};
-
-
-/***/ }),
-
-/***/ "./src/report/consolidated-report-generator.ts":
-/*!*****************************************************!*\
-  !*** ./src/report/consolidated-report-generator.ts ***!
-  \*****************************************************/
+/***/ "./src/crawler/ai-crawler.ts":
+/*!***********************************!*\
+  !*** ./src/crawler/ai-crawler.ts ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5095,47 +4871,40 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConsolidatedReportGenerator = void 0;
+exports.AICrawler = void 0;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-const axe_result_converter_1 = __webpack_require__(/*! axe-result-converter */ "../axe-result-converter/dist/index.js");
+const common_1 = __webpack_require__(/*! common */ "../common/dist/index.js");
 const accessibility_insights_crawler_1 = __webpack_require__(/*! accessibility-insights-crawler */ "../crawler/dist/index.js");
-const axe_info_1 = __webpack_require__(/*! ../axe/axe-info */ "./src/axe/axe-info.ts");
-const ioc_types_1 = __webpack_require__(/*! ../ioc-types */ "./src/ioc-types.ts");
-const service_name_1 = __webpack_require__(/*! ../service-name */ "./src/service-name.ts");
-let ConsolidatedReportGenerator = class ConsolidatedReportGenerator {
-    constructor(scanResultReader, axeResultsReducer, combinedReportDataConverter, reporterFactoryFunc, axeInfo) {
+const axe_result_converter_1 = __webpack_require__(/*! axe-result-converter */ "../axe-result-converter/dist/index.js");
+let AICrawler = class AICrawler {
+    constructor(crawler, scanResultReader, axeResultsReducer) {
+        this.crawler = crawler;
         this.scanResultReader = scanResultReader;
         this.axeResultsReducer = axeResultsReducer;
-        this.combinedReportDataConverter = combinedReportDataConverter;
-        this.reporterFactoryFunc = reporterFactoryFunc;
-        this.axeInfo = axeInfo;
     }
-    async generateReport(baseUrl, scanStarted, scanEnded) {
-        var _a;
-        const combinedAxeResults = await this.combineAxeResults();
-        const scanMetadata = await this.scanResultReader.getScanMetadata(baseUrl);
-        const scanResultData = {
-            baseUrl: (_a = scanMetadata.baseUrl) !== null && _a !== void 0 ? _a : 'n/a',
-            basePageTitle: scanMetadata.basePageTitle,
-            scanEngineName: service_name_1.serviceName,
-            axeCoreVersion: this.axeInfo.version,
-            browserUserAgent: scanMetadata.userAgent,
-            urlCount: combinedAxeResults.urlCount,
-            scanStarted,
-            scanEnded,
-        };
-        const combinedReportData = this.combinedReportDataConverter.convert(combinedAxeResults.combinedAxeResults, scanResultData);
-        const reporter = this.reporterFactoryFunc();
-        return reporter.fromCombinedResults(combinedReportData).asHTML();
+    async crawl(crawlerRunOptions) {
+        try {
+            await this.crawler.crawl(crawlerRunOptions);
+            let combinedAxeResult = await this.combineAxeResults();
+            combinedAxeResult.scanMetadata = await this.scanResultReader.getScanMetadata(crawlerRunOptions.baseUrl);
+            return combinedAxeResult;
+        }
+        catch (error) {
+            console.log(error, `An error occurred while scanning/crawling website page ${crawlerRunOptions.baseUrl}`);
+            return { error: common_1.System.serializeError(error) };
+        }
+        finally {
+            console.log(`Accessibility scanning/crawling of URL ${crawlerRunOptions.baseUrl} completed`);
+        }
     }
     async combineAxeResults() {
         const combinedAxeResults = {
-            violations: new axe_result_converter_1.AxeResults(),
-            passes: new axe_result_converter_1.AxeResults(),
-            incomplete: new axe_result_converter_1.AxeResults(),
-            inapplicable: new axe_result_converter_1.AxeResults(),
+            violations: new axe_result_converter_1.AxeScanResultsHashable(),
+            passes: new axe_result_converter_1.AxeScanResultsHashable(),
+            incomplete: new axe_result_converter_1.AxeScanResultsHashable(),
+            inapplicable: new axe_result_converter_1.AxeScanResultsHashable(),
         };
         const urlCount = {
             total: 0,
@@ -5160,208 +4929,37 @@ let ConsolidatedReportGenerator = class ConsolidatedReportGenerator {
         };
     }
 };
-ConsolidatedReportGenerator = __decorate([
-    inversify_1.injectable(),
-    __param(0, inversify_1.inject(accessibility_insights_crawler_1.DbScanResultReader)),
-    __param(1, inversify_1.inject(axe_result_converter_1.AxeResultsReducer)),
-    __param(2, inversify_1.inject(axe_result_converter_1.CombinedReportDataConverter)),
-    __param(3, inversify_1.inject(ioc_types_1.iocTypes.ReporterFactory)),
-    __param(4, inversify_1.inject(axe_info_1.AxeInfo)),
-    __metadata("design:paramtypes", [Object, axe_result_converter_1.AxeResultsReducer,
-        axe_result_converter_1.CombinedReportDataConverter, Function, axe_info_1.AxeInfo])
-], ConsolidatedReportGenerator);
-exports.ConsolidatedReportGenerator = ConsolidatedReportGenerator;
-
-
-/***/ }),
-
-/***/ "./src/report/report-disk-writer.ts":
-/*!******************************************!*\
-  !*** ./src/report/report-disk-writer.ts ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReportDiskWriter = void 0;
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-const fs = __importStar(__webpack_require__(/*! fs */ "fs"));
-const path = __importStar(__webpack_require__(/*! path */ "path"));
-const filenamify_1 = __importDefault(__webpack_require__(/*! filenamify */ "filenamify"));
-const filenamify_url_1 = __importDefault(__webpack_require__(/*! filenamify-url */ "filenamify-url"));
-const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-const lodash_1 = __webpack_require__(/*! lodash */ "lodash");
-const normalize_path_1 = __importDefault(__webpack_require__(/*! normalize-path */ "normalize-path"));
-/* eslint-disable security/detect-non-literal-fs-filename */
-let ReportDiskWriter = class ReportDiskWriter {
-    constructor(fileSystemObj = fs, pathObj = path) {
-        this.fileSystemObj = fileSystemObj;
-        this.pathObj = pathObj;
-    }
-    writeToDirectory(directory, fileName, format, content) {
-        let reportFileName;
-        try {
-            reportFileName = `${filenamify_url_1.default(fileName, { replacement: '_' })}.${format}`;
-        }
-        catch {
-            reportFileName = `${filenamify_1.default(fileName, { replacement: '_' })}.${format}`;
-        }
-        const normalizedDirectory = this.ensureDirectory(directory);
-        const filePath = normalize_path_1.default(this.pathObj.resolve(normalizedDirectory, reportFileName));
-        this.fileSystemObj.writeFileSync(filePath, content);
-        return filePath;
-    }
-    ensureDirectory(directory) {
-        let normalizedDirectory;
-        if (lodash_1.isEmpty(directory)) {
-            normalizedDirectory = normalize_path_1.default(__dirname);
-        }
-        else {
-            normalizedDirectory = normalize_path_1.default(directory);
-        }
-        if (!this.fileSystemObj.existsSync(normalizedDirectory)) {
-            this.fileSystemObj.mkdirSync(normalizedDirectory, { recursive: true });
-        }
-        return normalizedDirectory;
-    }
-};
-ReportDiskWriter = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [Object, Object])
-], ReportDiskWriter);
-exports.ReportDiskWriter = ReportDiskWriter;
-
-
-/***/ }),
-
-/***/ "./src/runner/crawler-command-runner.ts":
-/*!**********************************************!*\
-  !*** ./src/runner/crawler-command-runner.ts ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CrawlerCommandRunner = void 0;
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-const fs = __importStar(__webpack_require__(/*! fs */ "fs"));
-const accessibility_insights_crawler_1 = __webpack_require__(/*! accessibility-insights-crawler */ "../crawler/dist/index.js");
-const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-const report_disk_writer_1 = __webpack_require__(/*! ../report/report-disk-writer */ "./src/report/report-disk-writer.ts");
-const consolidated_report_generator_1 = __webpack_require__(/*! ../report/consolidated-report-generator */ "./src/report/consolidated-report-generator.ts");
-const crawler_parameters_builder_1 = __webpack_require__(/*! ../crawler-parameters-builder */ "./src/crawler-parameters-builder.ts");
-let CrawlerCommandRunner = class CrawlerCommandRunner {
-    constructor(crawler, crawlerParametersBuilder, consolidatedReportGenerator, reportDiskWriter, filesystem = fs) {
-        this.crawler = crawler;
-        this.crawlerParametersBuilder = crawlerParametersBuilder;
-        this.consolidatedReportGenerator = consolidatedReportGenerator;
-        this.reportDiskWriter = reportDiskWriter;
-        this.filesystem = filesystem;
-    }
-    async runCommand(scanArguments) {
-        if (this.canRunCommand(scanArguments) !== true) {
-            return;
-        }
-        const crawlerRunOptions = await this.crawlerParametersBuilder.build(scanArguments);
-        const scanStarted = new Date();
-        await this.crawler.crawl(crawlerRunOptions);
-        await this.generateConsolidatedReport(scanArguments, scanStarted, new Date());
-    }
-    async generateConsolidatedReport(scanArguments, scanStarted, scanEnded) {
-        console.log('Generating summary scan report...');
-        const reportContent = await this.consolidatedReportGenerator.generateReport(scanArguments.url, scanStarted, scanEnded);
-        const reportLocation = this.reportDiskWriter.writeToDirectory(scanArguments.output, 'index', 'html', reportContent);
-        console.log(`Summary report was saved as ${reportLocation}`);
-    }
-    canRunCommand(scanArguments) {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        if (this.filesystem.existsSync(scanArguments.output) && !scanArguments.restart && !scanArguments.continue) {
-            console.log('The last scan result was found on a disk. Use --continue option to continue scan for the last URL provided, or --restart option to delete the last scan result.');
-            return false;
-        }
-        return true;
-    }
-};
-CrawlerCommandRunner = __decorate([
+AICrawler = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(accessibility_insights_crawler_1.Crawler)),
-    __param(1, inversify_1.inject(crawler_parameters_builder_1.CrawlerParametersBuilder)),
-    __param(2, inversify_1.inject(consolidated_report_generator_1.ConsolidatedReportGenerator)),
-    __param(3, inversify_1.inject(report_disk_writer_1.ReportDiskWriter)),
-    __metadata("design:paramtypes", [accessibility_insights_crawler_1.Crawler,
-        crawler_parameters_builder_1.CrawlerParametersBuilder,
-        consolidated_report_generator_1.ConsolidatedReportGenerator,
-        report_disk_writer_1.ReportDiskWriter, Object])
-], CrawlerCommandRunner);
-exports.CrawlerCommandRunner = CrawlerCommandRunner;
+    __param(1, inversify_1.inject(accessibility_insights_crawler_1.DbScanResultReader)),
+    __param(2, inversify_1.inject(axe_result_converter_1.AxeResultsReducer)),
+    __metadata("design:paramtypes", [accessibility_insights_crawler_1.Crawler, Object, axe_result_converter_1.AxeResultsReducer])
+], AICrawler);
+exports.AICrawler = AICrawler;
+
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setupCliContainer = exports.AICrawler = exports.AIScanner = void 0;
+var ai_scanner_1 = __webpack_require__(/*! ./scanner/ai-scanner */ "./src/scanner/ai-scanner.ts");
+Object.defineProperty(exports, "AIScanner", { enumerable: true, get: function () { return ai_scanner_1.AIScanner; } });
+var ai_crawler_1 = __webpack_require__(/*! ./crawler/ai-crawler */ "./src/crawler/ai-crawler.ts");
+Object.defineProperty(exports, "AICrawler", { enumerable: true, get: function () { return ai_crawler_1.AICrawler; } });
+var setup_cli_container_1 = __webpack_require__(/*! ./setup-cli-container */ "./src/setup-cli-container.ts");
+Object.defineProperty(exports, "setupCliContainer", { enumerable: true, get: function () { return setup_cli_container_1.setupCliContainer; } });
 
 
 /***/ }),
@@ -5423,24 +5021,6 @@ AIScanner = __decorate([
     __metadata("design:paramtypes", [scanner_global_library_1.Page])
 ], AIScanner);
 exports.AIScanner = AIScanner;
-
-
-/***/ }),
-
-/***/ "./src/service-name.ts":
-/*!*****************************!*\
-  !*** ./src/service-name.ts ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.serviceName = void 0;
-exports.serviceName = 'Accessibility Insights Service';
 
 
 /***/ }),
@@ -5555,17 +5135,6 @@ module.exports = require("applicationinsights");
 
 /***/ }),
 
-/***/ "axe-core":
-/*!***************************!*\
-  !*** external "axe-core" ***!
-  \***************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("axe-core");
-
-/***/ }),
-
 /***/ "convict":
 /*!**************************!*\
   !*** external "convict" ***!
@@ -5607,28 +5176,6 @@ module.exports = require("dotenv");
 /***/ (function(module, exports) {
 
 module.exports = require("encoding-down");
-
-/***/ }),
-
-/***/ "filenamify":
-/*!*****************************!*\
-  !*** external "filenamify" ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("filenamify");
-
-/***/ }),
-
-/***/ "filenamify-url":
-/*!*********************************!*\
-  !*** external "filenamify-url" ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("filenamify-url");
 
 /***/ }),
 
@@ -5731,17 +5278,6 @@ module.exports = require("moment");
 
 /***/ }),
 
-/***/ "normalize-path":
-/*!*********************************!*\
-  !*** external "normalize-path" ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("normalize-path");
-
-/***/ }),
-
 /***/ "os":
 /*!*********************!*\
   !*** external "os" ***!
@@ -5783,17 +5319,6 @@ module.exports = require("puppeteer");
 /***/ (function(module, exports) {
 
 module.exports = require("raw-body");
-
-/***/ }),
-
-/***/ "reflect-metadata":
-/*!***********************************!*\
-  !*** external "reflect-metadata" ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("reflect-metadata");
 
 /***/ }),
 

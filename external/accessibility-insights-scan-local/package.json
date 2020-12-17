@@ -54,7 +54,6 @@
         "webpack": "^4.44.2",
         "webpack-cli": "^3.3.12",
         "webpack-node-externals": "^2.5.1",
-        "dts-bundle":"^0.7.3",
         "accessibility-insights-crawler": "1.0.0",
         "scanner-global-library": "1.0.0"
     },
@@ -90,8 +89,8 @@
         "verror": "^1.10.0",
         "wtfnode": "^0.8.3",
         "yargs": "^16.1.1",
-        "dts-generator": "^3.0.0",
-        "npm-dts": "^1.3.6"
+        "office-ui-fabric-react":"7.155.1",
+        "react-helmet":"6.1.0"
     },
     "bin": {
         "ai-scan": "dist/ai-scan-cli.js"
