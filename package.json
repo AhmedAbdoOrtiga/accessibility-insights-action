@@ -118,5 +118,8 @@
         "serialize-javascript": "^3.1.0",
         "apify-shared": ">=0.5.0",
         "y18n": ">=5.0.5"
+    },
+    "engines": {
+        "node": ">=10.18"
     }
 }
