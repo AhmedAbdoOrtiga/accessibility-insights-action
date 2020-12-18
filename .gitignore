@@ -5,6 +5,7 @@ node_modules/*
 !node_modules/bcrypt/
 !node_modules/leveldown/
 !node_modules/abstract-leveldown/
+!node_modules/xtend/
 
 
 
