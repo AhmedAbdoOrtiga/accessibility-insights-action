@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { AIScanner } from 'accessibility-insights-scan';
+import { AIScanner as AIScannerLocal } from 'accessibility-insights-scan-local';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
 import * as url from 'url';
@@ -25,6 +26,7 @@ export class Scanner {
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
+        @inject(AIScannerLocal) private readonly scannerLocal: AIScannerLocal,
     ) {}
 
     public async scan(): Promise<void> {
@@ -48,7 +50,9 @@ export class Scanner {
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
-            const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
+            const axeScanResults = await this.scannerLocal.scan(scanUrl, chromePath, axeCoreSourcePath);
+
+            // const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
             this.reportGenerator.generateReport(axeScanResults);
 
@@ -57,7 +61,7 @@ export class Scanner {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
             await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
-            this.fileServer.stop();
+            // this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
         }
     }
