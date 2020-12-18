@@ -55,7 +55,7 @@ export class Scanner {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
             // await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
-            // this.fileServer.stop();
+            this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
         }
     }
