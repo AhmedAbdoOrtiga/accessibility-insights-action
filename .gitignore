@@ -1,10 +1,17 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-node_modules/
+node_modules/*
+!node_modules/bcrypt/
+
 drop/
 test-results/
 out/
+
+src/**/*.d.ts
+src/**/*.js
+
+external/accessibility-insights-scan-local/
 
 **/.secrets
 **/dev.DockerFile
