@@ -5,7 +5,6 @@ import 'reflect-metadata';
 import { setupIocContainer } from './ioc/setup-ioc-container';
 import { Logger } from './logger/logger';
 import { Scanner } from './scanner/scanner';
-import { isEmpty } from 'lodash';
 
 (async () => {
     const container = setupIocContainer();
