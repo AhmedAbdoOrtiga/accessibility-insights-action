@@ -1249,11 +1249,6 @@
     prop-types "^15.7.2"
     tslib "^1.10.0"
 
-"@vercel/ncc@^0.26.0":
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.26.0.tgz#f144d2381147604fbec520b770f136d17a94690f"
-  integrity sha512-5XWU+Flb5wKGNjIbMWAwsDImfVtw8AVXttN5ZMmmgEC4ilKauxwV3odI2V+R6qMHOBa2kmGjUBFP9+J+w3OEaw==
-
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -1491,7 +1486,7 @@ accessibility-insights-report@^2.2.1:
     react-helmet "^6.1.0"
     uuid "^8.3.0"
 
-"accessibility-insights-scan-local@file:./external/accessibility-insights-scan-local":
+"accessibility-insights-scan-local@file:../accessibility-insights-service/packages/cli":
   version "0.5.2"
   dependencies:
     "@axe-core/puppeteer" "^4.0.0"
@@ -7497,7 +7492,7 @@ rimraf@^2.5.4, rimraf@^2.6.3:
   dependencies:
     glob "^7.1.3"
 
-rimraf@^3.0.0, rimraf@^3.0.1, rimraf@^3.0.2:
+rimraf@^3.0.0, rimraf@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==

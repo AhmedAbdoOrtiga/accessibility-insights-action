@@ -4,7 +4,7 @@
     "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
     "main": "dist/index.js",
     "scripts": {
-        "build": "ncc build src/index.ts -o dist",
+        "build": "webpack --config ./webpack.config.js",
         "watch:build": "webpack --config ./webpack.config.js --watch",
         "cbuild": "npm-run-all --serial clean build",
         "clean": "rimraf dist test-results",
@@ -54,14 +54,13 @@
         "mockdate": "^3.0.2",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.2.1",
-        "rimraf": "^3.0.1",
         "ts-jest": "^26.4.4",
         "ts-loader": "^8.0.11",
         "typemoq": "^2.1.0",
         "typescript": "^4.1.2",
         "webpack": "^4.44.2",
         "webpack-cli": "^4.2.0",
-        "@vercel/ncc":"^0.26.0"
+        "rimraf": "^3.0.2"
     },
     "dependencies": {
         "@actions/core": "^1.2.6",
@@ -69,7 +68,7 @@
         "@octokit/rest": "^18.0.11",
         "accessibility-insights-report": "^2.2.1",
         "accessibility-insights-scan": "^0.4.7",
-        "accessibility-insights-scan-local": "file:./external/accessibility-insights-scan-local/",
+        "accessibility-insights-scan-local": "file:../accessibility-insights-service/packages/cli/",
         "axe-core": "4.0.2",
         "express": "^4.17.1",
         "filenamify-url": "^2.1.1",
@@ -79,8 +78,7 @@
         "puppeteer-core": "^5.5.0",
         "reflect-metadata": "^0.1.13",
         "serve-static": "^1.14.1",
-        "verror": "^1.10.0",
-        "leveldown": "^5.6.0"
+        "verror": "^1.10.0"
     },
     "resolutions": {
         "@actions/http-client": "^1.0.8",
