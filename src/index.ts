@@ -13,17 +13,19 @@ import { isEmpty } from 'lodash';
     const { stdout, stderr } = await exec(`npm install -g leveldown`);
 
     if (!isEmpty(stderr)) {
-        console.log('couldn\'t install external dependencies')
+        console.log("couldn't install external dependencies");
         throw Error(stderr);
     }
 
-    console.log(stdout);
-    const container = setupIocContainer();
-    const logger = container.get(Logger);
-    await logger.setup();
+    if (!isEmpty(stdout)) {
+        console.log(stdout);
+        const container = setupIocContainer();
+        const logger = container.get(Logger);
+        await logger.setup();
 
-    const scanner = container.get(Scanner);
-    await scanner.scan();
+        const scanner = container.get(Scanner);
+        await scanner.scan();
+    }
 })().catch((error) => {
     console.log('Exception thrown in action: ', error);
     process.exit(1);
