@@ -40,10 +40,12 @@ export class Scanner {
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
-            const combinedScanResult:CombinedScanResult = await this.crawler.crawl({
+            const combinedScanResult: CombinedScanResult = await this.crawler.crawl({
                 baseUrl: scanUrl,
                 crawl: true,
                 restartCrawl: true,
+                chromePath: chromePath,
+                axeSourcePath: axeCoreSourcePath,
             });
 
             // const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);

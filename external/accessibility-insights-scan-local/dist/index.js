@@ -2023,6 +2023,9 @@ let CrawlerConfiguration = class CrawlerConfiguration {
     baseUrl() {
         return this.crawlerRunOptions.baseUrl;
     }
+    axeSourcePath() {
+        return this.crawlerRunOptions.axeSourcePath;
+    }
     discoveryPatterns() {
         return this.getDiscoveryPattern(this.crawlerRunOptions.baseUrl, this.crawlerRunOptions.discoveryPatterns);
     }
@@ -2050,6 +2053,9 @@ let CrawlerConfiguration = class CrawlerConfiguration {
     }
     setSilentMode(silentMode) {
         this.settingsHandler.setApifySettings({ APIFY_HEADLESS: silentMode === undefined ? undefined : silentMode ? '1' : '0' });
+    }
+    setChromePath(chromePath) {
+        this.settingsHandler.setApifySettings({ APIFY_CHROME_EXECUTABLE_PATH: chromePath });
     }
     getMaxRequestsPerCrawl(maxRequestsPerCrawl) {
         return maxRequestsPerCrawl === undefined || maxRequestsPerCrawl <= 0 ? 100 : maxRequestsPerCrawl;
@@ -2117,6 +2123,7 @@ const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
 const ioc_types_1 = __webpack_require__(/*! ../types/ioc-types */ "../crawler/dist/types/ioc-types.js");
 const crawler_configuration_1 = __webpack_require__(/*! ./crawler-configuration */ "../crawler/dist/crawler/crawler-configuration.js");
 const crawler_factory_1 = __webpack_require__(/*! ./crawler-factory */ "../crawler/dist/crawler/crawler-factory.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "lodash");
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 let CrawlerEngine = class CrawlerEngine {
     constructor(pageProcessorFactory, requestQueueProvider, crawlerFactory, crawlerConfiguration) {
@@ -2149,6 +2156,19 @@ let CrawlerEngine = class CrawlerEngine {
                 },
             },
         };
+        if (!lodash_1.isEmpty(crawlerRunOptions.chromePath)) {
+            puppeteerCrawlerOptions.launchPuppeteerOptions = {
+                ...puppeteerCrawlerOptions.launchPuppeteerOptions,
+                useChrome: true,
+            };
+            this.crawlerConfiguration.setChromePath(crawlerRunOptions.chromePath);
+        }
+        if (!lodash_1.isEmpty(crawlerRunOptions.axeSourcePath)) {
+            puppeteerCrawlerOptions.launchPuppeteerOptions = {
+                ...puppeteerCrawlerOptions.launchPuppeteerOptions,
+                puppeteerModule: crawlerRunOptions.axeSourcePath,
+            };
+        }
         if (crawlerRunOptions.debug === true) {
             this.crawlerConfiguration.setSilentMode(false);
             puppeteerCrawlerOptions.handlePageTimeoutSecs = 3600;
@@ -2488,8 +2508,8 @@ let AccessibilityScanOperation = class AccessibilityScanOperation {
         this.reportGenerator = reportGenerator;
         this.blobStore = blobStore;
     }
-    async run(page, id) {
-        const axeResults = await this.scanner.scan(page);
+    async run(page, id, axeSourcePath) {
+        const axeResults = await this.scanner.scan(page, axeSourcePath);
         const report = this.reportGenerator.generateReport(axeResults, page.url(), await page.title());
         await this.blobStore.setValue(`${id}.axe`, axeResults);
         await this.blobStore.setValue(`${id}.report`, report.asHTML(), { contentType: 'text/html' });
@@ -2657,7 +2677,7 @@ let ClassicPageProcessor = class ClassicPageProcessor extends page_processor_bas
             var _a;
             console.log(`Processing page ${page.url()}`);
             await this.enqueueLinks(page);
-            const axeResults = await this.accessibilityScanOp.run(page, request.id);
+            const axeResults = await this.accessibilityScanOp.run(page, request.id, this.crawlerConfiguration.axeSourcePath());
             const issueCount = ((_a = axeResults === null || axeResults === void 0 ? void 0 : axeResults.violations) === null || _a === void 0 ? void 0 : _a.length) > 0 ? axeResults.violations.reduce((a, b) => a + b.nodes.length, 0) : 0;
             await this.saveSnapshot(page, request.id);
             await this.pushScanData({ id: request.id, url: request.url, succeeded: true, issueCount });
@@ -2951,7 +2971,7 @@ let SimulatorPageProcessor = class SimulatorPageProcessor extends page_processor
                 console.log(`Processing page ${page.url()}`);
                 await this.enqueueLinks(page);
                 await this.enqueueActiveElementsOp.find(page, this.selectors, requestQueue);
-                const axeResults = await this.accessibilityScanOp.run(page, request.id);
+                const axeResults = await this.accessibilityScanOp.run(page, request.id, this.crawlerConfiguration.axeSourcePath());
                 const issueCount = ((_a = axeResults === null || axeResults === void 0 ? void 0 : axeResults.violations) === null || _a === void 0 ? void 0 : _a.length) > 0 ? axeResults.violations.reduce((a, b) => a + b.nodes.length, 0) : 0;
                 await this.saveSnapshot(page, request.id);
                 await this.pushScanData({ succeeded: true, id: request.id, url: request.url, issueCount: issueCount });
@@ -2964,7 +2984,7 @@ let SimulatorPageProcessor = class SimulatorPageProcessor extends page_processor
                 let issueCount;
                 if (operationResult.clickAction === 'page-action') {
                     await this.enqueueLinks(page);
-                    const axeResults = await this.accessibilityScanOp.run(page, request.id);
+                    const axeResults = await this.accessibilityScanOp.run(page, request.id, this.crawlerConfiguration.axeSourcePath());
                     issueCount = ((_b = axeResults === null || axeResults === void 0 ? void 0 : axeResults.violations) === null || _b === void 0 ? void 0 : _b.length) > 0 ? axeResults.violations.reduce((a, b) => a + b.nodes.length, 0) : 0;
                     await this.saveSnapshot(page, request.id);
                     await this.saveScanResult(request, issueCount, activeElement.selector);
@@ -3168,8 +3188,8 @@ let PageScanner = class PageScanner {
     constructor(axePuppeteerFactory) {
         this.axePuppeteerFactory = axePuppeteerFactory;
     }
-    async scan(page) {
-        const axePuppeteer = await this.axePuppeteerFactory.createAxePuppeteer(page);
+    async scan(page, axeSourcePath) {
+        const axePuppeteer = await this.axePuppeteerFactory.createAxePuppeteer(page, axeSourcePath);
         return axePuppeteer.analyze();
     }
 };

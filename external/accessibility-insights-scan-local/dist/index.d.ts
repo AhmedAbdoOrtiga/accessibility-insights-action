@@ -308,6 +308,8 @@ export interface CrawlerRunOptions {
 	memoryMBytes?: number;
 	silentMode?: boolean;
 	debug?: boolean;
+	chromePath?: string;
+	axeSourcePath?: string;
 }
 declare class Crawler {
 	private readonly container;
