@@ -19,7 +19,6 @@ out/
 src/**/*.d.ts
 src/**/*.js
 
-external/accessibility-insights-scan-local/
 
 **/.secrets
 **/dev.DockerFile
