@@ -2105,30 +2105,11 @@ exports.CrawlerConfiguration = CrawlerConfiguration;
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -2143,15 +2124,13 @@ const ioc_types_1 = __webpack_require__(/*! ../types/ioc-types */ "../crawler/di
 const crawler_configuration_1 = __webpack_require__(/*! ./crawler-configuration */ "../crawler/dist/crawler/crawler-configuration.js");
 const crawler_factory_1 = __webpack_require__(/*! ./crawler-factory */ "../crawler/dist/crawler/crawler-factory.js");
 const lodash_1 = __webpack_require__(/*! lodash */ "lodash");
-const fs = __importStar(__webpack_require__(/*! fs */ "fs"));
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 let CrawlerEngine = class CrawlerEngine {
-    constructor(pageProcessorFactory, requestQueueProvider, crawlerFactory, crawlerConfiguration, fileSystemObj = fs) {
+    constructor(pageProcessorFactory, requestQueueProvider, crawlerFactory, crawlerConfiguration) {
         this.pageProcessorFactory = pageProcessorFactory;
         this.requestQueueProvider = requestQueueProvider;
         this.crawlerFactory = crawlerFactory;
         this.crawlerConfiguration = crawlerConfiguration;
-        this.fileSystemObj = fileSystemObj;
     }
     async start(crawlerRunOptions) {
         var _a;
@@ -2183,13 +2162,6 @@ let CrawlerEngine = class CrawlerEngine {
                 useChrome: true,
             };
             this.crawlerConfiguration.setChromePath(crawlerRunOptions.chromePath);
-        }
-        if (!lodash_1.isEmpty(crawlerRunOptions.axeSourcePath)) {
-            const content = this.fileSystemObj.readFileSync(crawlerRunOptions.axeSourcePath);
-            puppeteerCrawlerOptions.launchPuppeteerOptions = {
-                ...puppeteerCrawlerOptions.launchPuppeteerOptions,
-                puppeteerModule: content,
-            };
         }
         if (crawlerRunOptions.debug === true) {
             this.crawlerConfiguration.setSilentMode(false);
@@ -2224,7 +2196,7 @@ CrawlerEngine = __decorate([
     __param(2, inversify_1.inject(crawler_factory_1.CrawlerFactory)),
     __param(3, inversify_1.inject(crawler_configuration_1.CrawlerConfiguration)),
     __metadata("design:paramtypes", [Function, Function, crawler_factory_1.CrawlerFactory,
-        crawler_configuration_1.CrawlerConfiguration, Object])
+        crawler_configuration_1.CrawlerConfiguration])
 ], CrawlerEngine);
 exports.CrawlerEngine = CrawlerEngine;
 //# sourceMappingURL=crawler-engine.js.map
