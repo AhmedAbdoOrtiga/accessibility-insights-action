@@ -6,6 +6,7 @@ node_modules/*
 !node_modules/leveldown/
 !node_modules/abstract-leveldown/
 !node_modules/xtend/
+!node_modules/level-supports/
 
 
 
