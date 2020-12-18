@@ -69,7 +69,7 @@
         "@octokit/rest": "^18.0.11",
         "accessibility-insights-report": "^2.2.1",
         "accessibility-insights-scan": "^0.4.7",
-        "accessibility-insights-scan-local": "file:../accessibility-insights-service/packages/cli/",
+        "accessibility-insights-scan-local": "file:./external/accessibility-insights-scan-local/",
         "axe-core": "4.0.2",
         "express": "^4.17.1",
         "filenamify-url": "^2.1.1",
