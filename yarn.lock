@@ -1491,8 +1491,8 @@ accessibility-insights-report@^4.0.0:
     react-helmet "^6.1.0"
     uuid "^8.3.2"
 
-"accessibility-insights-scan-local@file:../accessibility-insights-service/packages/cli":
-  version "0.5.1"
+"accessibility-insights-scan-local@file:./external/accessibility-insights-scan-local":
+  version "0.5.2"
   dependencies:
     "@axe-core/puppeteer" "^4.0.0"
     "@medv/finder" "^2.0.0"

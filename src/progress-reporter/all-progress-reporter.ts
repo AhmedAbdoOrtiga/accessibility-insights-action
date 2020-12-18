@@ -13,9 +13,9 @@ export class AllProgressReporter implements ProgressReporter {
 
     constructor(
         @inject(PullRequestCommentCreator) pullRequestCommentCreator: PullRequestCommentCreator,
-        @inject(CheckRunCreator) checkRunCreator: CheckRunCreator,
+        // @inject(CheckRunCreator) checkRunCreator: CheckRunCreator,
     ) {
-        this.progressReporters = [checkRunCreator, pullRequestCommentCreator];
+        this.progressReporters = [pullRequestCommentCreator];
     }
 
     public async start(): Promise<void> {

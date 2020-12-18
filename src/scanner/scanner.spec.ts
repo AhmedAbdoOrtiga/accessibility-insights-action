@@ -58,7 +58,7 @@ describe(Scanner, () => {
         } as typeof process;
         scanner = new Scanner(
             loggerMock.object,
-            scannerMock.object,
+            // scannerMock.object,
             reportGeneratorMock.object,
             taskConfigMock.object,
             progressReporterMock.object,

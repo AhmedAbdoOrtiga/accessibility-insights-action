@@ -16,7 +16,7 @@ describe(AllProgressReporter, () => {
     beforeEach(() => {
         checkRunCreatorMock = Mock.ofType(CheckRunCreator);
         pullRequestCommentCreator = Mock.ofType(PullRequestCommentCreator);
-        testSubject = new AllProgressReporter(pullRequestCommentCreator.object, checkRunCreatorMock.object);
+        testSubject = new AllProgressReporter(pullRequestCommentCreator.object);
     });
 
     it('start should invoke all reporters', async () => {
