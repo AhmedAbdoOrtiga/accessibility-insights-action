@@ -3,7 +3,7 @@
 import 'reflect-metadata';
 
 import { AxeReportParameters, Report, Reporter, ReporterFactory } from 'accessibility-insights-report';
-import { AxeScanResults } from 'accessibility-insights-scan';
+import { AxeScanResults } from 'accessibility-insights-scan-local';
 import { AxeResults } from 'axe-core';
 import * as filenamifyUrl from 'filenamify-url';
 import * as fs from 'fs';

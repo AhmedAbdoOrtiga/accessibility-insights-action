@@ -4,7 +4,7 @@ import 'reflect-metadata';
 
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
-import { AxeScanResults } from 'accessibility-insights-scan';
+import { AxeScanResults } from 'accessibility-insights-scan-local';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { disclaimerText } from '../../content/mark-down-strings';

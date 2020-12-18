@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import { AxeScanResults } from 'accessibility-insights-scan';
+import { AxeScanResults } from 'accessibility-insights-scan-local';
 import { IMock, Mock, Times } from 'typemoq';
 
 import { AxeMarkdownConvertor } from './axe-markdown-convertor';

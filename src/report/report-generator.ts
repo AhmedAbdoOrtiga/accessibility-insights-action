@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AxeReportParameters, ReporterFactory } from 'accessibility-insights-report';
-import { AxeScanResults } from 'accessibility-insights-scan';
+import { AxeScanResults } from 'accessibility-insights-scan-local';
 import * as filenamifyUrl from 'filenamify-url';
 import * as fs from 'fs';
 import { inject, injectable } from 'inversify';

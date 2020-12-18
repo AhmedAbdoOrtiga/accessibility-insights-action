@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { AIScanner } from 'accessibility-insights-scan';
+import { AIScanner } from 'accessibility-insights-scan-local';
 import { AIScanner as AIScannerLocal } from 'accessibility-insights-scan-local';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
