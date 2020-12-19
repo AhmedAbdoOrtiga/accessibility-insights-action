@@ -10,8 +10,10 @@ node_modules/*
 !node_modules/node-gyp-build/
 !node_modules/@axe-core/
 !node_modules/axe-core/
-
-
+!node_modules/apify/
+!node_modules/apify-shared/
+!node_modules/encoding-down/
+!node_modules/levelup/
 
 drop/
 test-results/
