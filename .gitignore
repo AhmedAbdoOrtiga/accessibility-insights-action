@@ -29,6 +29,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/unbzip2-stream/
 !node_modules/ws/
 !node_modules/ms/
+!node_modules/get-stream/
 
 
 
