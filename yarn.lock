@@ -1473,8 +1473,8 @@ accessibility-insights-report@3.0.1, accessibility-insights-report@^2.0.0, acces
     "@medv/finder" "^2.0.0"
     "@sindresorhus/fnv1a" "^2.0.1"
     accessibility-insights-report "3.0.1"
-    apify "^0.21.8"
-    apify-shared "^0.5.0"
+    apify "^0.21.9"
+    apify-shared "^0.5.6"
     applicationinsights "^1.8.8"
     axe-core "4.0.2"
     cheerio "^1.0.0-rc.3"
@@ -1663,7 +1663,7 @@ apify-client@^0.6.0:
     type-check "^0.3.2"
     underscore "^1.9.1"
 
-apify-shared@>=0.5.0, apify-shared@^0.1.45, apify-shared@^0.4.0, apify-shared@^0.5.0:
+apify-shared@>=0.5.0, apify-shared@^0.1.45, apify-shared@^0.4.0, apify-shared@^0.5.0, apify-shared@^0.5.6:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/apify-shared/-/apify-shared-0.5.0.tgz#b3263428a30abf427dbf4f7da59340f9d90e2bf4"
   integrity sha512-Hjax9+8kkYIH7dpdG7wam6H2VTquiGKiryQKSx0IsDZ1sXzpLExT/n+gZXxgIbkjCCtQxFyudrbl+lf31zBZFQ==
@@ -1681,7 +1681,7 @@ apify-shared@>=0.5.0, apify-shared@^0.1.45, apify-shared@^0.4.0, apify-shared@^0
     underscore "^1.9.1"
     url "^0.11.0"
 
-apify@^0.21.8:
+apify@^0.21.8, apify@^0.21.9:
   version "0.21.10"
   resolved "https://registry.yarnpkg.com/apify/-/apify-0.21.10.tgz#477bf67fc5b68f8a127038c9abf791da19829608"
   integrity sha512-zzjwFrxBrupS9i3gZmYWaCV2BR1aaM+Po6V/snm33TWpiEtMPdQXxlC+6KOt3A0R77dkXEiBJnxEbfpBxLvOVA==

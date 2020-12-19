@@ -2026,6 +2026,9 @@ let CrawlerConfiguration = class CrawlerConfiguration {
     axeSourcePath() {
         return this.crawlerRunOptions.axeSourcePath;
     }
+    chromePath() {
+        return this.crawlerRunOptions.chromePath;
+    }
     discoveryPatterns() {
         return this.getDiscoveryPattern(this.crawlerRunOptions.baseUrl, this.crawlerRunOptions.discoveryPatterns);
     }
@@ -2123,7 +2126,6 @@ const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
 const ioc_types_1 = __webpack_require__(/*! ../types/ioc-types */ "../crawler/dist/types/ioc-types.js");
 const crawler_configuration_1 = __webpack_require__(/*! ./crawler-configuration */ "../crawler/dist/crawler/crawler-configuration.js");
 const crawler_factory_1 = __webpack_require__(/*! ./crawler-factory */ "../crawler/dist/crawler/crawler-factory.js");
-const lodash_1 = __webpack_require__(/*! lodash */ "lodash");
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 let CrawlerEngine = class CrawlerEngine {
     constructor(pageProcessorFactory, requestQueueProvider, crawlerFactory, crawlerConfiguration) {
@@ -2156,13 +2158,6 @@ let CrawlerEngine = class CrawlerEngine {
                 },
             },
         };
-        if (!lodash_1.isEmpty(crawlerRunOptions.chromePath)) {
-            puppeteerCrawlerOptions.launchPuppeteerOptions = {
-                ...puppeteerCrawlerOptions.launchPuppeteerOptions,
-                useChrome: true,
-            };
-            // this.crawlerConfiguration.setChromePath(crawlerRunOptions.chromePath);
-        }
         if (crawlerRunOptions.debug === true) {
             this.crawlerConfiguration.setSilentMode(false);
             puppeteerCrawlerOptions.handlePageTimeoutSecs = 3600;
@@ -2727,7 +2722,7 @@ const local_data_store_1 = __webpack_require__(/*! ../storage/local-data-store *
 const store_types_1 = __webpack_require__(/*! ../storage/store-types */ "../crawler/dist/storage/store-types.js");
 const ioc_types_1 = __webpack_require__(/*! ../types/ioc-types */ "../crawler/dist/types/ioc-types.js");
 let PageProcessorBase = class PageProcessorBase {
-    constructor(accessibilityScanOp, dataStore, blobStore, dataBase, pageNavigator, requestQueueProvider, crawlerConfiguration, enqueueLinksExt = apify_1.default.utils.enqueueLinks, saveSnapshotExt = apify_1.default.utils.puppeteer.saveSnapshot) {
+    constructor(accessibilityScanOp, dataStore, blobStore, dataBase, pageNavigator, requestQueueProvider, crawlerConfiguration, webDriver, enqueueLinksExt = apify_1.default.utils.enqueueLinks, saveSnapshotExt = apify_1.default.utils.puppeteer.saveSnapshot) {
         this.accessibilityScanOp = accessibilityScanOp;
         this.dataStore = dataStore;
         this.blobStore = blobStore;
@@ -2735,6 +2730,7 @@ let PageProcessorBase = class PageProcessorBase {
         this.pageNavigator = pageNavigator;
         this.requestQueueProvider = requestQueueProvider;
         this.crawlerConfiguration = crawlerConfiguration;
+        this.webDriver = webDriver;
         this.enqueueLinksExt = enqueueLinksExt;
         this.saveSnapshotExt = saveSnapshotExt;
         /**
@@ -2742,6 +2738,19 @@ let PageProcessorBase = class PageProcessorBase {
          */
         this.gotoTimeoutMsecs = 30000;
         this.pageRenderingTimeoutMsecs = 5000;
+        /**
+         * Function that is called to process each request.
+         */
+        this.launchPuppeteerFunction = async (inputs) => {
+            try {
+                const browser = await this.webDriver.launch(this.crawlerConfiguration.chromePath());
+                return browser;
+            }
+            catch (err) {
+                // Throw the error so Apify puts it back into the queue to retry
+                throw err;
+            }
+        };
         /**
          * Function that is called to process each request.
          */
@@ -2894,8 +2903,10 @@ PageProcessorBase = __decorate([
     __param(4, inversify_1.inject(scanner_global_library_1.PageNavigator)),
     __param(5, inversify_1.inject(ioc_types_1.iocTypes.ApifyRequestQueueProvider)),
     __param(6, inversify_1.inject(crawler_configuration_1.CrawlerConfiguration)),
+    __param(7, inversify_1.inject(scanner_global_library_1.WebDriver)),
     __metadata("design:paramtypes", [accessibility_scan_operation_1.AccessibilityScanOperation, Object, Object, data_base_1.DataBase,
-        scanner_global_library_1.PageNavigator, Function, crawler_configuration_1.CrawlerConfiguration, Object, Object])
+        scanner_global_library_1.PageNavigator, Function, crawler_configuration_1.CrawlerConfiguration,
+        scanner_global_library_1.WebDriver, Object, Object])
 ], PageProcessorBase);
 exports.PageProcessorBase = PageProcessorBase;
 //# sourceMappingURL=page-processor-base.js.map
@@ -2944,8 +2955,8 @@ const ioc_types_1 = __webpack_require__(/*! ../types/ioc-types */ "../crawler/di
 const page_processor_base_1 = __webpack_require__(/*! ./page-processor-base */ "../crawler/dist/page-processors/page-processor-base.js");
 /* eslint-disable no-invalid-this */
 let SimulatorPageProcessor = class SimulatorPageProcessor extends page_processor_base_1.PageProcessorBase {
-    constructor(accessibilityScanOp, dataStore, blobStore, dataBase, enqueueActiveElementsOp, clickElementOp, pageNavigator, requestQueueProvider, crawlerConfiguration, enqueueLinksExt = apify_1.default.utils.enqueueLinks, saveSnapshotExt = apify_1.default.utils.puppeteer.saveSnapshot) {
-        super(accessibilityScanOp, dataStore, blobStore, dataBase, pageNavigator, requestQueueProvider, crawlerConfiguration, enqueueLinksExt, saveSnapshotExt);
+    constructor(accessibilityScanOp, dataStore, blobStore, dataBase, enqueueActiveElementsOp, clickElementOp, pageNavigator, requestQueueProvider, crawlerConfiguration, webDriver, enqueueLinksExt = apify_1.default.utils.enqueueLinks, saveSnapshotExt = apify_1.default.utils.puppeteer.saveSnapshot) {
+        super(accessibilityScanOp, dataStore, blobStore, dataBase, pageNavigator, requestQueueProvider, crawlerConfiguration, webDriver, enqueueLinksExt, saveSnapshotExt);
         this.accessibilityScanOp = accessibilityScanOp;
         this.dataStore = dataStore;
         this.blobStore = blobStore;
@@ -2955,6 +2966,7 @@ let SimulatorPageProcessor = class SimulatorPageProcessor extends page_processor
         this.pageNavigator = pageNavigator;
         this.requestQueueProvider = requestQueueProvider;
         this.crawlerConfiguration = crawlerConfiguration;
+        this.webDriver = webDriver;
         this.enqueueLinksExt = enqueueLinksExt;
         this.saveSnapshotExt = saveSnapshotExt;
         this.processPage = async ({ page, request }) => {
@@ -3010,10 +3022,12 @@ SimulatorPageProcessor = __decorate([
     __param(6, inversify_1.inject(scanner_global_library_1.PageNavigator)),
     __param(7, inversify_1.inject(ioc_types_1.iocTypes.ApifyRequestQueueProvider)),
     __param(8, inversify_1.inject(crawler_configuration_1.CrawlerConfiguration)),
+    __param(9, inversify_1.inject(scanner_global_library_1.WebDriver)),
     __metadata("design:paramtypes", [accessibility_scan_operation_1.AccessibilityScanOperation, Object, Object, data_base_1.DataBase,
         enqueue_active_elements_operation_1.EnqueueActiveElementsOperation,
         click_element_operation_1.ClickElementOperation,
-        scanner_global_library_1.PageNavigator, Function, crawler_configuration_1.CrawlerConfiguration, Object, Object])
+        scanner_global_library_1.PageNavigator, Function, crawler_configuration_1.CrawlerConfiguration,
+        scanner_global_library_1.WebDriver, Object, Object])
 ], SimulatorPageProcessor);
 exports.SimulatorPageProcessor = SimulatorPageProcessor;
 //# sourceMappingURL=simulator-page-processor.js.map
@@ -4841,6 +4855,7 @@ let WebDriver = class WebDriver {
                 height: 1080,
                 deviceScaleFactor: 1,
             },
+            timeout: 120000,
         });
         (_a = this.logger) === null || _a === void 0 ? void 0 : _a.logInfo('Chromium browser instance started.');
         return this.browser;
