@@ -31,6 +31,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/ms/
 !node_modules/get-stream/
 !node_modules/pump/
+!node_modules/once/
 
 
 
