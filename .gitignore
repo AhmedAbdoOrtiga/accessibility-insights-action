@@ -17,7 +17,7 @@ node_modules/puppeteer/.local-chromium
 # !node_modules/ajv/
 # !node_modules/ansi-styles/
 !node_modules/apify/
-# !node_modules/apify-client/
+!node_modules/apify-client/
 !node_modules/apify-shared/
 # !node_modules/array-flatten/
 
