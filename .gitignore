@@ -19,7 +19,7 @@ node_modules/puppeteer/.local-chromium
 
 # !node_modules/arraybuffer.slice/
 # !node_modules/asn1/
-# !node_modules/assert-plus/
+!node_modules/assert-plus/
 # !node_modules/async-limiter/
 # !node_modules/asynckit/
 # !node_modules/at-least-node/
