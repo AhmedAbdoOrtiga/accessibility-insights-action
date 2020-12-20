@@ -23,7 +23,7 @@ node_modules/puppeteer/.local-chromium
 # !node_modules/async-limiter/
 # !node_modules/asynckit/
 # !node_modules/at-least-node/
-# !node_modules/aws-sign2/
+!node_modules/aws-sign2/
 # !node_modules/aws4/
 # !node_modules/axios/
 # !node_modules/backo2/
