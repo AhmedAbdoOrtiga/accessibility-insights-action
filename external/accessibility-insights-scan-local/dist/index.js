@@ -2156,6 +2156,7 @@ let CrawlerEngine = class CrawlerEngine {
                     height: 1080,
                     deviceScaleFactor: 1,
                 },
+                useChrome: true,
             },
         };
         if (crawlerRunOptions.debug === true) {
