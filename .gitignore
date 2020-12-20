@@ -275,6 +275,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/yallist/
 !node_modules/yauzl/
 !node_modules/yeast/
+!node_modules/node-gyp/
 
 
 drop/
