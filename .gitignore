@@ -3,7 +3,7 @@
 
 node_modules/*
 node_modules/puppeteer/.local-chromium
-# !node_modules/@apify/
+!node_modules/@apify/
 # !node_modules/@sindresorhus/
 # !node_modules/@szmarczak/
 # !node_modules/@tootallnate/
@@ -21,6 +21,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/apify-client/
 !node_modules/apify-shared/
 !node_modules/array-flatten/
+
 !node_modules/arraybuffer.slice/
 !node_modules/asn1/
 !node_modules/assert-plus/
@@ -32,6 +33,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/axios/
 !node_modules/backo2/
 !node_modules/balanced-match/
+
 !node_modules/base64-arraybuffer/
 !node_modules/base64-js/
 !node_modules/base64id/
@@ -43,6 +45,8 @@ node_modules/puppeteer/.local-chromium
 !node_modules/body-parser/
 !node_modules/boolbase/
 !node_modules/brace-expansion/
+
+
 !node_modules/buffer/
 !node_modules/buffer-crc32/
 !node_modules/bytes/
