@@ -2126,6 +2126,7 @@ const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
 const ioc_types_1 = __webpack_require__(/*! ../types/ioc-types */ "../crawler/dist/types/ioc-types.js");
 const crawler_configuration_1 = __webpack_require__(/*! ./crawler-configuration */ "../crawler/dist/crawler/crawler-configuration.js");
 const crawler_factory_1 = __webpack_require__(/*! ./crawler-factory */ "../crawler/dist/crawler/crawler-factory.js");
+const lodash_1 = __webpack_require__(/*! lodash */ "lodash");
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 let CrawlerEngine = class CrawlerEngine {
     constructor(pageProcessorFactory, requestQueueProvider, crawlerFactory, crawlerConfiguration) {
@@ -2156,9 +2157,15 @@ let CrawlerEngine = class CrawlerEngine {
                     height: 1080,
                     deviceScaleFactor: 1,
                 },
-                useChrome: true,
             },
         };
+        if (!lodash_1.isEmpty(crawlerRunOptions.chromePath)) {
+            puppeteerCrawlerOptions.launchPuppeteerOptions = {
+                ...puppeteerCrawlerOptions.launchPuppeteerOptions,
+                useChrome: true,
+            };
+            this.crawlerConfiguration.setChromePath(crawlerRunOptions.chromePath);
+        }
         if (crawlerRunOptions.debug === true) {
             this.crawlerConfiguration.setSilentMode(false);
             puppeteerCrawlerOptions.handlePageTimeoutSecs = 3600;
