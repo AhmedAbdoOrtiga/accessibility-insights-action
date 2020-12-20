@@ -81,12 +81,10 @@
         "serve-static": "^1.14.1",
         "verror": "^1.10.0",
         "leveldown": "^5.6.0",
-        "@axe-core/puppeteer": "^4.0.0",
         "apify": "^0.21.8",
         "apify-shared": "^0.5.0",
         "encoding-down": "^6.3.0",
-        "levelup": "^4.4.0",
-        "puppeteer": "^5.4.1"
+        "levelup": "^4.4.0"
     },
     "resolutions": {
         "@actions/http-client": "^1.0.8",
@@ -95,6 +93,5 @@
         "serialize-javascript": "^3.1.0",
         "apify-shared": ">=0.5.0",
         "y18n": ">=5.0.5"
-    },
-    "assets": [ "node_modules/leveldown/**/*" ]
+    }
 }
