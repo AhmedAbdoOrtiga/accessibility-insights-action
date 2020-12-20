@@ -10,7 +10,7 @@ node_modules/puppeteer/.local-chromium
 
 
 # !node_modules/abstract-leveldown/
-# !node_modules/accepts/
+!node_modules/accepts/
 # !node_modules/after/
 !node_modules/agent-base/
 !node_modules/agentkeepalive/
