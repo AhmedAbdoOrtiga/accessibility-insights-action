@@ -24,7 +24,7 @@
   dependencies:
     tunnel "0.0.6"
 
-"@apify/http-request@^2.0.1":
+"@apify/http-request@^2.0.1", "@apify/http-request@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@apify/http-request/-/http-request-2.1.1.tgz#973880f2e3fc2297d5b52b79b4357c1d1d50dee4"
   integrity sha512-B6yIX9QkzmYXd5X/J3EBWjliqWX9U5fiTpbX8A6LPDi+CAedIZWXPIOEGVqp4JqDR6DA6pbsq92h8rMll8Q6IA==
