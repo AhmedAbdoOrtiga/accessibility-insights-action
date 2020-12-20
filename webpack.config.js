@@ -13,7 +13,7 @@ module.exports = (env) => {
     console.log(`Building for version : ${version}`);
     return {
         devtool: 'cheap-source-map',
-        externals: ['leveldown', 'puppeteer', 'axe-core', '@axe-core/puppeteer', 'apify', 'apify-shared'],
+        externals: ['leveldown', 'puppeteer', 'axe-core'],
         entry: {
             ['index']: path.resolve('./src/index.ts'),
         },
