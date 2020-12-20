@@ -6,7 +6,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/@apify/
 !node_modules/@sindresorhus/
 !node_modules/@szmarczak/
-# !node_modules/@tootallnate/
+!node_modules/@tootallnate/
 # !node_modules/@types/
 
 
