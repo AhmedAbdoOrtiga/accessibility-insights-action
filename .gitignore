@@ -10,10 +10,27 @@ node_modules/*
 !node_modules/level-supports/
 !node_modules/node-gyp-build/
 
+# abstract-leveldown
+# base64-js
+# buffer
+# ieee754
+# immediate
+# level-concat-iterator
+# level-supports
+# leveldown
+# napi-macros
+# node-gyp-build
+# xtend
+
 
 !node_modules/@axe-core/
 !node_modules/axe-core/
+
+#apify
 !node_modules/apify/
+!node_modules/chalk/
+
+
 !node_modules/apify-shared/
 !node_modules/encoding-down/
 !node_modules/levelup/
