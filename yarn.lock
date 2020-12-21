@@ -938,6 +938,13 @@
   resolved "https://registry.yarnpkg.com/@types/level-codec/-/level-codec-9.0.0.tgz#9f1dc7f9017b6fba094a450602ec0b91cc384059"
   integrity sha512-SWYkVJylo1dqblkhrr7UtmsQh4wdZA9bV1y3QJSywMPSqGfW0p1w37N1EayZtKbg1dGReIIQEEOtxk4wZvGrWQ==
 
+"@types/leveldown@^1.7.0":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@types/leveldown/-/leveldown-1.7.2.tgz#614a749868380c7868c8e83a4360ac702db1b512"
+  integrity sha512-WyKOkNRyrq1DfGmX6YRcbPqW/Mzv9dgLSmbkCvOgaYiVzbzMcNafgSi5s6yTNWKGNjQwKxCkgytY8JERAej7TQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/levelup@^4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@types/levelup/-/levelup-4.3.0.tgz#4f55585e05a33caa08c1439c344bbba93e947327"
