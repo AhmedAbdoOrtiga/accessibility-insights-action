@@ -17,28 +17,28 @@ node_modules/puppeteer/.local-chromium
 !node_modules/apify-shared/
 !node_modules/array-flatten/
 
-# !node_modules/arraybuffer.slice/
-# !node_modules/asn1/
+!node_modules/arraybuffer.slice/
+!node_modules/asn1/
 !node_modules/assert-plus/
-# !node_modules/async-limiter/
-# !node_modules/asynckit/
-# !node_modules/at-least-node/
+!node_modules/async-limiter/
+!node_modules/asynckit/
+!node_modules/at-least-node/
 !node_modules/aws-sign2/
 !node_modules/aws4/
-# !node_modules/axios/
-# !node_modules/backo2/
-# !node_modules/balanced-match/
-# !node_modules/base64-arraybuffer/
-# !node_modules/base64-js/
-# !node_modules/base64id/
-# !node_modules/bcrypt-pbkdf/
-# !node_modules/better-assert/
-# !node_modules/bl/
-# !node_modules/blob/
-# !node_modules/bluebird/
-# !node_modules/body-parser/
-# !node_modules/boolbase/
-# !node_modules/brace-expansion/
+!node_modules/axios/
+!node_modules/backo2/
+!node_modules/balanced-match/
+!node_modules/base64-arraybuffer/
+!node_modules/base64-js/
+!node_modules/base64id/
+!node_modules/bcrypt-pbkdf/
+!node_modules/better-assert/
+!node_modules/bl/
+!node_modules/blob/
+!node_modules/bluebird/
+!node_modules/body-parser/
+!node_modules/boolbase/
+!node_modules/brace-expansion/
 
 
 !node_modules/buffer/
