@@ -36,6 +36,9 @@ module.exports = (env) => {
             ],
         },
         name: 'scan-action',
+        node: {
+            __dirname: false,
+        },
         output: {
             path: path.resolve('./dist'),
             filename: '[name].js',
