@@ -40,7 +40,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/boolbase/
 !node_modules/brace-expansion/
 
-
+!node_modules/callsites/
 !node_modules/buffer/
 !node_modules/buffer-crc32/
 !node_modules/bytes/
