@@ -282,6 +282,7 @@ node_modules/puppeteer/.local-chromium
 !node_modules/ws/
 !node_modules/yallist/
 !node_modules/yauzl/
+!node_modules/bcrypt/
 
 
 drop/
