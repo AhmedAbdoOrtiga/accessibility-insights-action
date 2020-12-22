@@ -85,8 +85,8 @@
         "levelup": "^4.4.0",
         "leveldown": "^5.6.0",
         "encoding-down": "^6.3.0",
-        "apify-shared": "^0.5.2",
-        "apify": "^0.22.1"
+        "apify-shared": "^0.5.6",
+        "apify": "^0.21.9"
     },
     "resolutions": {
         "@actions/http-client": "^1.0.8",
@@ -97,6 +97,6 @@
         "y18n": ">=5.0.5"
     },
     "engines": {
-        "node": "10.x"
+        "node": ">=10.18"
     }
 }
