@@ -38,6 +38,7 @@ module.exports = (env) => {
         name: 'scan-action',
         node: {
             __dirname: false,
+            __filename: false,
         },
         output: {
             path: path.resolve('./dist'),
