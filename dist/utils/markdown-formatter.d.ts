@@ -1,0 +1,9 @@
+export declare const snippet: (text: string) => string;
+export declare const link: (href: string, text: string) => string;
+export declare const image: (altText: string, src: string) => string;
+export declare const listItem: (text: string) => string;
+export declare const heading: (text: string, headingLevel: number) => string;
+export declare const bold: (text: string) => string;
+export declare const productTitle: () => string;
+export declare const footerSeparator: () => string;
+export declare const sectionSeparator: () => string;
