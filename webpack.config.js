@@ -37,11 +37,10 @@ module.exports = (env) => {
         },
         name: 'scan-action',
         node: {
-            __dirname: true,
-            __filename: false,
+            __dirname: false,
         },
         output: {
-            path: path.resolve('./'),
+            path: path.resolve('./dist'),
             filename: '[name].js',
             libraryTarget: 'commonjs2',
         },
