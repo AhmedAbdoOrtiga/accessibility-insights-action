@@ -41,7 +41,7 @@ module.exports = (env) => {
             __filename: false,
         },
         output: {
-            path: path.resolve('./dist'),
+            path: path.resolve('./'),
             filename: '[name].js',
             libraryTarget: 'commonjs2',
         },
