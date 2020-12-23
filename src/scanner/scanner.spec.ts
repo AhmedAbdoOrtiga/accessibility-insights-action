@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import 'reflect-metadata';
 
-import { AIScanner, AxeScanResults } from 'accessibility-insights-scan';
+import { AIScanner, AxeScanResults } from 'accessibility-insights-scan-local';
 import * as path from 'path';
 import { IMock, It, Mock, Times } from 'typemoq';
 import * as util from 'util';
@@ -58,13 +58,14 @@ describe(Scanner, () => {
         } as typeof process;
         scanner = new Scanner(
             loggerMock.object,
-            scannerMock.object,
+            // scannerMock.object,
             reportGeneratorMock.object,
             taskConfigMock.object,
             progressReporterMock.object,
             localFileServerMock.object,
             promiseUtilsMock.object,
             processStub,
+            null,
         );
 
         taskConfigMock

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { inject, injectable } from 'inversify';
 
-import { AxeScanResults } from 'accessibility-insights-scan';
+import { AxeScanResults } from 'accessibility-insights-scan-local';
 import { CheckRunCreator } from './check-run/check-run-creator';
 import { ProgressReporter } from './progress-reporter';
 import { PullRequestCommentCreator } from './pull-request/pull-request-comment-creator';
@@ -13,9 +13,9 @@ export class AllProgressReporter implements ProgressReporter {
 
     constructor(
         @inject(PullRequestCommentCreator) pullRequestCommentCreator: PullRequestCommentCreator,
-        @inject(CheckRunCreator) checkRunCreator: CheckRunCreator,
+        // @inject(CheckRunCreator) checkRunCreator: CheckRunCreator,
     ) {
-        this.progressReporters = [checkRunCreator, pullRequestCommentCreator];
+        this.progressReporters = [pullRequestCommentCreator];
     }
 
     public async start(): Promise<void> {

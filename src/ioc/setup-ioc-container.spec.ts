@@ -31,7 +31,7 @@ describe(setupIocContainer, () => {
         { key: iocTypes.GetPort, value: getPort },
         { key: iocTypes.Express, value: express },
         { key: iocTypes.ServeStatic, value: serveStatic },
-        { key: iocTypes.ReporterFactory, value: reporterFactory },
+        { key: iocTypes.ReportFactory, value: reporterFactory },
         { key: iocTypes.Github, value: github },
     ])('verify constant value resolution %s', (pair: { key: string; value: any }) => {
         expect(testSubject.get(pair.key)).toBe(pair.value);

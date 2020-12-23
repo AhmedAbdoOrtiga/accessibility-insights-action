@@ -1,40 +1,44 @@
-{
-    "name": "accessibility-insights-action",
-    "version": "0.0.1",
-    "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
-    "main": "dist/index.js",
-    "scripts": {
-        "build": "webpack --config ./webpack.config.js",
-        "watch:build": "webpack --config ./webpack.config.js --watch",
-        "cbuild": "npm-run-all --serial clean build",
-        "clean": "rimraf dist test-results",
-        "format:check": "prettier --check \"**/*\"",
-        "format:fix": "prettier --write \"**/*\"",
-        "lint:check": "eslint src/**/*.{js,ts}",
-        "lint:fix": "eslint src/**/*.{js,ts} --quiet --fix",
-        "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",
-        "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",
-        "test": "jest",
-        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test",
-        "watch:test": "jest --watch"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/microsoft/accessibility-insights-action.git"
-    },
-    "keywords": [
-        "actions"
-    ],
-    "author": "Microsoft",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/microsoft/accessibility-insights-action/issues"
-    },
-    "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",
+{	
+    "name": "accessibility-insights-action",	
+    "version": "0.0.1",	
+    "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",	
+    "main": "dist/index.js",	
+    "scripts": {	
+        "build": "webpack --config ./webpack.config.js",	
+        "watch:build": "webpack --config ./webpack.config.js --watch",	
+        "cbuild": "npm-run-all --serial clean build",	
+        "clean": "rimraf dist test-results",	
+        "cleanModules": "rimraf node_modules",	
+        "format:check": "prettier --check \"**/*\"",	
+        "format:fix": "prettier --write \"**/*\"",	
+        "lint:check": "eslint src/**/*.{js,ts}",	
+        "lint:fix": "eslint src/**/*.{js,ts} --quiet --fix",	
+        "copyright:check": "license-check-and-add check -f ./license-check-and-add-config.json",	
+        "copyright:fix": "license-check-and-add add -f ./license-check-and-add-config.json",	
+        "test": "jest",	
+        "precheckin": "npm-run-all --serial copyright:check format:check cbuild lint:check test",	
+        "watch:test": "jest --watch"	
+    },	
+    "repository": {	
+        "type": "git",	
+        "url": "git+https://github.com/microsoft/accessibility-insights-action.git"	
+    },	
+    "keywords": [	
+        "actions"	
+    ],	
+    "author": "Microsoft",	
+    "license": "MIT",	
+    "bugs": {	
+        "url": "https://github.com/microsoft/accessibility-insights-action/issues"	
+    },	
+    "homepage": "https://github.com/microsoft/accessibility-insights-action#readme",	
     "devDependencies": {
         "@types/express": "^4.17.9",
         "@types/jest": "^26.0.16",
         "@types/lodash": "^4.14.165",
+        "@types/leveldown": "^1.7.0",
+        "@types/levelup": "^0.0.30",
+        "@types/encoding-down": "^5.0.0",
         "@types/puppeteer-core": "^2.0.0",
         "@types/serve-static": "^1.13.8",
         "@types/verror": "^1.10.4",
@@ -58,32 +62,22 @@
         "ts-loader": "^8.0.11",
         "typemoq": "^2.1.0",
         "typescript": "^4.1.2",
-        "webpack": "^5.9.0",
-        "webpack-cli": "^4.2.0"
+        "webpack": "^4.44.2",
+        "webpack-cli": "^3.3.12"
     },
     "dependencies": {
-        "@actions/core": "^1.2.6",
-        "@actions/github": "^4.0.0",
-        "@octokit/rest": "^18.0.11",
-        "accessibility-insights-report": "^2.2.1",
-        "accessibility-insights-scan": "^0.4.7",
-        "axe-core": "4.0.2",
-        "express": "^4.17.1",
-        "filenamify-url": "^2.1.1",
-        "get-port": "^5.1.1",
-        "inversify": "^5.0.1",
-        "lodash": "^4.17.20",
-        "puppeteer-core": "^5.5.0",
-        "reflect-metadata": "^0.1.13",
-        "serve-static": "^1.14.1",
-        "verror": "^1.10.0"
+
+        "leveldown": "^5.6.0",
+        "apify": "^0.21.9"
     },
-    "resolutions": {
-        "@actions/http-client": "^1.0.8",
-        "accessibility-insights-report": "^2.0.0",
-        "minimist": "^1.2.3",
-        "serialize-javascript": "^3.1.0",
-        "apify-shared": ">=0.5.0",
-        "y18n": ">=5.0.5"
-    }
+    "resolutions": {	
+        "@actions/http-client": "^1.0.8",	
+        "minimist": "^1.2.3",	
+        "serialize-javascript": "^3.1.0",	
+        "apify-shared": ">=0.5.0",	
+        "y18n": ">=5.0.5"	
+    },	
+    "engines": {	
+        "node": ">=10.18"	
+    }	
 }

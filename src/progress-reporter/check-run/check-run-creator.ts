@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import * as github from '@actions/github';
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
-import { AxeScanResults } from 'accessibility-insights-scan';
+import { AxeScanResults } from 'accessibility-insights-scan-local';
 import { inject, injectable } from 'inversify';
 
 import { isNil } from 'lodash';
