@@ -4,6 +4,7 @@
 /// <reference types="puppeteer" />
 
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import { CombinedReportParameters } from 'accessibility-insights-report';
 import axe from 'axe-core';
 import { AxeResults } from 'axe-core';
 import * as fs from 'fs';
@@ -357,6 +358,16 @@ export interface UrlCount {
 	failed: number;
 	passed: number;
 }
+export interface ScanResultData {
+	baseUrl: string;
+	basePageTitle: string;
+	scanEngineName: string;
+	axeCoreVersion: string;
+	browserUserAgent: string;
+	urlCount: UrlCount;
+	scanStarted: Date;
+	scanEnded: Date;
+}
 declare class AxeResultsReducer {
 	private readonly hashGenerator;
 	constructor(hashGenerator: HashGenerator);
@@ -366,6 +377,22 @@ declare class AxeResultsReducer {
 	private getElementFingerprint;
 	private getElementSelectors;
 	private setUrl;
+}
+declare class CombinedReportDataConverter {
+	convert(axeResults: AxeCoreResults, scanResultData: ScanResultData): CombinedReportParameters;
+	private groupFailureDataByRule;
+	private getFailureData;
+	private getAxeRuleData;
+	private getNodeResult;
+	private getNodeCheckResults;
+	private getAxeRuleDataForResult;
+	private getElementSelector;
+	private sortFailuresGroups;
+	private compareFailureGroup;
+	private compareFailureData;
+	private compareAxeRuleData;
+	private addRuleIdsFromFailures;
+	private addRuleIdsFromRuleData;
 }
 export interface ScanResultReader extends AsyncIterable<ScanResult> {
 	getScanMetadata(baseUrl: string): Promise<ScanMetadata>;
@@ -386,5 +413,10 @@ export declare class AICrawler {
 	private combineAxeResults;
 }
 export declare function setupCliContainer(container?: inversify.Container): inversify.Container;
+export declare class AICombinedReportDataConverter {
+	private readonly combinedReportDataConverter;
+	constructor(combinedReportDataConverter: CombinedReportDataConverter);
+	convertCrawlingResults(combinedAxeResults: AxeCoreResults, scanResultData: ScanResultData): CombinedReportParameters;
+}
 
 export {};

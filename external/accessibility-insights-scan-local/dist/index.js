@@ -4886,6 +4886,51 @@ exports.WebDriver = WebDriver;
 
 /***/ }),
 
+/***/ "./src/converter/ai-data-converter.ts":
+/*!********************************************!*\
+  !*** ./src/converter/ai-data-converter.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AICombinedReportDataConverter = void 0;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+const inversify_1 = __webpack_require__(/*! inversify */ "inversify");
+const axe_result_converter_1 = __webpack_require__(/*! axe-result-converter */ "../axe-result-converter/dist/index.js");
+let AICombinedReportDataConverter = class AICombinedReportDataConverter {
+    constructor(combinedReportDataConverter) {
+        this.combinedReportDataConverter = combinedReportDataConverter;
+    }
+    convertCrawlingResults(combinedAxeResults, scanResultData) {
+        return this.combinedReportDataConverter.convert(combinedAxeResults, scanResultData);
+    }
+};
+AICombinedReportDataConverter = __decorate([
+    inversify_1.injectable(),
+    __param(0, inversify_1.inject(axe_result_converter_1.CombinedReportDataConverter)),
+    __metadata("design:paramtypes", [axe_result_converter_1.CombinedReportDataConverter])
+], AICombinedReportDataConverter);
+exports.AICombinedReportDataConverter = AICombinedReportDataConverter;
+
+
+/***/ }),
+
 /***/ "./src/crawler/ai-crawler.ts":
 /*!***********************************!*\
   !*** ./src/crawler/ai-crawler.ts ***!
@@ -4990,13 +5035,15 @@ exports.AICrawler = AICrawler;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setupCliContainer = exports.AICrawler = exports.AIScanner = void 0;
+exports.AICombinedReportDataConverter = exports.setupCliContainer = exports.AICrawler = exports.AIScanner = void 0;
 var ai_scanner_1 = __webpack_require__(/*! ./scanner/ai-scanner */ "./src/scanner/ai-scanner.ts");
 Object.defineProperty(exports, "AIScanner", { enumerable: true, get: function () { return ai_scanner_1.AIScanner; } });
 var ai_crawler_1 = __webpack_require__(/*! ./crawler/ai-crawler */ "./src/crawler/ai-crawler.ts");
 Object.defineProperty(exports, "AICrawler", { enumerable: true, get: function () { return ai_crawler_1.AICrawler; } });
 var setup_cli_container_1 = __webpack_require__(/*! ./setup-cli-container */ "./src/setup-cli-container.ts");
 Object.defineProperty(exports, "setupCliContainer", { enumerable: true, get: function () { return setup_cli_container_1.setupCliContainer; } });
+var ai_data_converter_1 = __webpack_require__(/*! ./converter/ai-data-converter */ "./src/converter/ai-data-converter.ts");
+Object.defineProperty(exports, "AICombinedReportDataConverter", { enumerable: true, get: function () { return ai_data_converter_1.AICombinedReportDataConverter; } });
 
 
 /***/ }),

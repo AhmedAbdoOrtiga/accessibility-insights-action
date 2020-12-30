@@ -69,7 +69,7 @@
         "@actions/core": "^1.2.6",
         "@actions/github": "^4.0.0",
         "@octokit/rest": "^18.0.11",
-        "accessibility-insights-report": "^2.2.1",
+        "accessibility-insights-report": "3.0.1",
         "accessibility-insights-scan-local": "file:./external/accessibility-insights-scan-local/",
         "axe-core": "4.0.2",
         "express": "^4.17.1",
@@ -90,7 +90,6 @@
     },
     "resolutions": {
         "@actions/http-client": "^1.0.8",
-        "accessibility-insights-report": "^2.0.0",
         "minimist": "^1.2.3",
         "serialize-javascript": "^3.1.0",
         "apify-shared": ">=0.5.0",

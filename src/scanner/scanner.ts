@@ -13,12 +13,13 @@ import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
 import { AICrawler, CombinedScanResult } from 'accessibility-insights-scan-local';
+import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
 
 @injectable()
 export class Scanner {
     constructor(
         @inject(Logger) private readonly logger: Logger,
-        @inject(ReportGenerator) private readonly reportGenerator: ReportGenerator,
+        @inject(ConsolidatedReportGenerator) private readonly reportGenerator: ConsolidatedReportGenerator,
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(AllProgressReporter) private readonly allProgressReporter: AllProgressReporter,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
@@ -40,6 +41,7 @@ export class Scanner {
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
+            const scanStarted = new Date();
             const combinedScanResult: CombinedScanResult = await this.crawler.crawl({
                 baseUrl: scanUrl,
                 crawl: true,
@@ -47,10 +49,11 @@ export class Scanner {
                 chromePath: chromePath,
                 axeSourcePath: axeCoreSourcePath,
             });
+            const scanEnded = new Date();
 
             // const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
 
-            // this.reportGenerator.generateReport(axeScanResults);
+            this.reportGenerator.generateReport(combinedScanResult, scanStarted, scanEnded);
 
             // await this.allProgressReporter.completeRun(axeScanResults);
         } catch (error) {
