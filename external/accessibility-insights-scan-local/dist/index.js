@@ -2891,6 +2891,7 @@ let PageProcessorBase = class PageProcessorBase {
                 baseUrl: this.baseUrl,
                 basePageTitle: this.baseUrl === url ? pageTitle : '',
                 userAgent: this.pageNavigator.pageConfigurator.getUserAgent(),
+                browserSpec: this.pageNavigator.pageConfigurator.getBrowserSpec(),
             });
             this.scanMetadataSaved = true;
         }
@@ -4422,6 +4423,9 @@ let PageConfigurator = class PageConfigurator {
     getUserAgent() {
         return this.userAgent;
     }
+    getBrowserSpec() {
+        return this.browserSpec;
+    }
     async configurePage(page) {
         await page.setBypassCSP(true);
         await page.setViewport({
@@ -4430,11 +4434,17 @@ let PageConfigurator = class PageConfigurator {
             deviceScaleFactor: 1,
         });
         await this.setUserAgent(page);
+        await this.setBrowserSpec(page);
     }
     async setUserAgent(page) {
         const browser = page.browser();
         this.userAgent = (await browser.userAgent()).replace('HeadlessChrome', 'Chrome');
         await page.setUserAgent(this.userAgent);
+    }
+    async setBrowserSpec(page) {
+        const browser = page.browser();
+        this.browserSpec = (await browser.version()).replace('HeadlessChrome', 'Chrome');
+        await page.setUserAgent(this.browserSpec);
     }
 };
 PageConfigurator = __decorate([

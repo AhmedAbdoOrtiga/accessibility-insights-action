@@ -22,9 +22,12 @@ export interface BrowserError {
 }
 declare class PageConfigurator {
 	private userAgent;
+	private browserSpec;
 	getUserAgent(): string;
+	getBrowserSpec(): string;
 	configurePage(page: Page): Promise<void>;
 	private setUserAgent;
+	private setBrowserSpec;
 }
 export declare type AvailabilityTelemetry = {
 	id?: string;
@@ -322,6 +325,7 @@ export interface ScanMetadata {
 	baseUrl: string;
 	basePageTitle?: string;
 	userAgent?: string;
+	browserSpec?: string;
 }
 export interface ScanResult {
 	id: string;
