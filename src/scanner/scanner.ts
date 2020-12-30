@@ -16,6 +16,7 @@ import { AICrawler, CombinedScanResult, AICombinedReportDataConverter, ScanResul
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
 import { AxeInfo } from '../axe/axe-info';
 import { CombinedReportParameters } from 'accessibility-insights-report';
+import { toolName } from '../content/strings';
 
 @injectable()
 export class Scanner {
@@ -73,7 +74,7 @@ export class Scanner {
         const scanResultData: ScanResultData = {
             baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
             basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
-            scanEngineName: 'AIAction',
+            scanEngineName: toolName,
             axeCoreVersion: this.axeInfo.version,
             browserUserAgent: combinedScanResult.scanMetadata.userAgent,
             urlCount: combinedScanResult.urlCount,

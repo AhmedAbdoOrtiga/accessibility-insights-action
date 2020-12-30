@@ -21,21 +21,18 @@ export class CheckResultMarkdownBuilder {
     };
 
     public content = (combinedReportParameters: CombinedReportParameters): string => {
-        const passedChecks = combinedReportParameters.results.resultsByRule.failed.length;
+        const passedChecks = combinedReportParameters.results.resultsByRule.passed.length;
         const inapplicableChecks = combinedReportParameters.results.resultsByRule.notApplicable.length;
         const failedChecks = combinedReportParameters.results.resultsByRule.failed.reduce((a, b) => a + b.failed.length, 0);
 
         const lines = [
             heading(`${productTitle()}`, 3),
-            sectionSeparator(),
-            heading(`Rules:`, 4),
-            sectionSeparator(),
-            listItem(`${failedChecks} check(s) failed, ${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`),
-            sectionSeparator(),
-            heading(`URLs:`, 4),
-            sectionSeparator(),
+            // sectionSeparator(),
+            listItem(`${bold(`Rules: `)}${failedChecks} check(s) failed, ${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`),
+            // sectionSeparator(),
+            // sectionSeparator(),
             listItem(
-                `${combinedReportParameters.results.urlResults.failedUrls} URL(s) failed, ${combinedReportParameters.results.urlResults.passedUrls} URL(s) passed, and ${combinedReportParameters.results.urlResults.unscannableUrls} were not scannable`,
+                `${bold(`URLs: `)}${combinedReportParameters.results.urlResults.failedUrls} URL(s) failed, ${combinedReportParameters.results.urlResults.passedUrls} URL(s) passed, and ${combinedReportParameters.results.urlResults.unscannableUrls} were not scannable`,
             ),
             sectionSeparator(),
 
