@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import { AxeInfo } from '../axe/axe-info';
 import { Logger } from '../logger/logger';
-import { ReporterFactory } from 'accessibility-insights-report';
-import { ScanResultData, CombinedScanResult, AICombinedReportDataConverter } from 'accessibility-insights-scan-local';
+import { ReporterFactory, CombinedReportParameters } from 'accessibility-insights-report';
+import { AICombinedReportDataConverter } from 'accessibility-insights-scan-local';
 import * as fs from 'fs';
 import { inject, injectable } from 'inversify';
 import { iocTypes } from '../ioc/ioc-types';
@@ -21,21 +21,7 @@ export class ConsolidatedReportGenerator {
         private readonly fileSystemObj: typeof fs = fs,
     ) {}
 
-    public async generateReport(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): Promise<string> {
-        const scanResultData: ScanResultData = {
-            baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
-            basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
-            scanEngineName: 'AIAction',
-            axeCoreVersion: this.axeInfo.version,
-            browserUserAgent: combinedScanResult.scanMetadata.userAgent,
-            urlCount: combinedScanResult.urlCount,
-            scanStarted,
-            scanEnded,
-        };
-        const combinedReportData = this.combinedReportDataConverter.convertCrawlingResults(
-            combinedScanResult.combinedAxeResults,
-            scanResultData,
-        );
+    public async generateReport(combinedReportData: CombinedReportParameters): Promise<string> {
         const reporter = this.reporterFactoryFunc();
 
         const htmlReportContent = reporter.fromCombinedResults(combinedReportData).asHTML();

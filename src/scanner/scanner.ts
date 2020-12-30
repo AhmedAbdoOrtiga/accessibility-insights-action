@@ -12,8 +12,10 @@ import { AllProgressReporter } from '../progress-reporter/all-progress-reporter'
 import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
-import { AICrawler, CombinedScanResult } from 'accessibility-insights-scan-local';
+import { AICrawler, CombinedScanResult, AICombinedReportDataConverter, ScanResultData } from 'accessibility-insights-scan-local';
 import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
+import { AxeInfo } from '../axe/axe-info';
+import { CombinedReportParameters } from 'accessibility-insights-report';
 
 @injectable()
 export class Scanner {
@@ -26,13 +28,15 @@ export class Scanner {
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
         @inject(AICrawler) private readonly crawler: AICrawler,
+        @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
+        @inject(AxeInfo) private readonly axeInfo: AxeInfo,
     ) {}
 
     public async scan(): Promise<void> {
         let scanUrl: string;
 
         try {
-            // await this.allProgressReporter.start();
+            await this.allProgressReporter.start();
             const baseUrl = await this.fileServer.start();
             scanUrl = url.resolve(baseUrl, this.taskConfig.getScanUrlRelativePath());
 
@@ -52,17 +56,30 @@ export class Scanner {
             });
             const scanEnded = new Date();
 
-            // const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
+            const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
+            this.reportGenerator.generateReport(convertedData);
 
-            this.reportGenerator.generateReport(combinedScanResult, scanStarted, scanEnded);
-
-            // await this.allProgressReporter.completeRun(axeScanResults);
+            await this.allProgressReporter.completeRun(convertedData);
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
-            // await this.allProgressReporter.failRun(util.inspect(error));
+            await this.allProgressReporter.failRun(util.inspect(error));
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
         }
+    }
+
+    private getConvertedData(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
+        const scanResultData: ScanResultData = {
+            baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
+            basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
+            scanEngineName: 'AIAction',
+            axeCoreVersion: this.axeInfo.version,
+            browserUserAgent: combinedScanResult.scanMetadata.userAgent,
+            urlCount: combinedScanResult.urlCount,
+            scanStarted,
+            scanEnded,
+        };
+        return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
     }
 }

@@ -12,6 +12,7 @@ import { iocTypes } from '../../ioc/ioc-types';
 import { Logger } from '../../logger/logger';
 import { AxeMarkdownConvertor } from '../../mark-down/axe-markdown-convertor';
 import { ProgressReporter } from '../progress-reporter';
+import { CombinedReportParameters } from 'accessibility-insights-report';
 
 type UpdateCheckOutputParameter = RestEndpointMethodTypes['checks']['update']['parameters']['output'];
 type CreateCheckResponseData = RestEndpointMethodTypes['checks']['create']['response']['data'];
@@ -42,7 +43,7 @@ export class CheckRunCreator implements ProgressReporter {
         ).data;
     }
 
-    public async completeRun(axeScanResults: AxeScanResults): Promise<void> {
+    public async completeRun(combinedReportParameters: CombinedReportParameters): Promise<void> {
         this.logMessage('Updating check run with status as completed');
         await this.octokit.checks.update({
             owner: this.githubObj.context.repo.owner,
@@ -50,8 +51,8 @@ export class CheckRunCreator implements ProgressReporter {
             check_run_id: this.a11yCheck.id,
             name: checkRunName,
             status: 'completed',
-            conclusion: axeScanResults.results.violations.length === 0 ? 'success' : 'failure',
-            output: this.getScanOutput(axeScanResults),
+            conclusion: combinedReportParameters.results.urlResults.failedUrls === 0 ? 'success' : 'failure',
+            output: this.getScanOutput(combinedReportParameters),
         });
     }
 
@@ -77,11 +78,11 @@ export class CheckRunCreator implements ProgressReporter {
         this.logger.logInfo(`[CheckRunCreator] ${message}`);
     }
 
-    private getScanOutput(axeScanResults: AxeScanResults): UpdateCheckOutputParameter {
+    private getScanOutput(combinedReportParameters: CombinedReportParameters): UpdateCheckOutputParameter {
         return {
             title: checkRunDetailsTitle,
             summary: disclaimerText,
-            text: this.axeMarkdownConvertor.convert(axeScanResults),
+            text: this.axeMarkdownConvertor.convert(combinedReportParameters),
         };
     }
 }
