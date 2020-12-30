@@ -9,7 +9,6 @@ import { inject, injectable } from 'inversify';
 import { iocTypes } from '../ioc/ioc-types';
 import { TaskConfig } from '../task-config';
 
-
 @injectable()
 export class ConsolidatedReportGenerator {
     constructor(
@@ -33,7 +32,10 @@ export class ConsolidatedReportGenerator {
             scanStarted,
             scanEnded,
         };
-        const combinedReportData = this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
+        const combinedReportData = this.combinedReportDataConverter.convertCrawlingResults(
+            combinedScanResult.combinedAxeResults,
+            scanResultData,
+        );
         const reporter = this.reporterFactoryFunc();
 
         const htmlReportContent = reporter.fromCombinedResults(combinedReportData).asHTML();
@@ -41,6 +43,13 @@ export class ConsolidatedReportGenerator {
         const outDirectory = this.taskConfig.getReportOutDir();
         const reportFileName = `${outDirectory}/index.html`;
 
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        if (!this.fileSystemObj.existsSync(outDirectory)) {
+            this.logger.logInfo('output directory does not exists.');
+            this.logger.logInfo(`creating output directory - ${outDirectory}`);
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            this.fileSystemObj.mkdirSync(outDirectory);
+        }
 
         this.saveHtmlReport(reportFileName, htmlReportContent);
 

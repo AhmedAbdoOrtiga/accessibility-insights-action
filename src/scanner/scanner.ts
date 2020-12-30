@@ -48,6 +48,7 @@ export class Scanner {
                 restartCrawl: true,
                 chromePath: chromePath,
                 axeSourcePath: axeCoreSourcePath,
+                localOutputDir: this.taskConfig.getReportOutDir(),
             });
             const scanEnded = new Date();
 
