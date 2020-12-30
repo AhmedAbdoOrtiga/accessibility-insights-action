@@ -28,10 +28,10 @@ export class CheckResultMarkdownBuilder {
         const lines = [
             heading(`${productTitle()}`, 3),
             sectionSeparator(),
-            listItem(`${bold(`Rules: `)}${failedChecks} check(s) failed, ${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`),
+            listItem(`${bold(`Rules`)}: ${failedChecks} check(s) failed, ${passedChecks} check(s) passed, and ${inapplicableChecks} were not applicable`),
             sectionSeparator(),
             listItem(
-                `${bold(`URLs: `)}${combinedReportParameters.results.urlResults.failedUrls} URL(s) failed, ${combinedReportParameters.results.urlResults.passedUrls} URL(s) passed, and ${combinedReportParameters.results.urlResults.unscannableUrls} were not scannable`,
+                `${bold(`URLs`)}: ${combinedReportParameters.results.urlResults.failedUrls} URL(s) failed, ${combinedReportParameters.results.urlResults.passedUrls} URL(s) passed, and ${combinedReportParameters.results.urlResults.unscannableUrls} were not scannable`,
             ),
             sectionSeparator(),
 
