@@ -61,6 +61,10 @@ export class Scanner {
             this.reportGenerator.generateReport(convertedData);
 
             await this.allProgressReporter.completeRun(convertedData);
+
+            if(convertedData.results.urlResults.failedUrls>0){
+                await this.allProgressReporter.failRun('Fix your accessibility issues!');
+            }
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
             await this.allProgressReporter.failRun(util.inspect(error));
