@@ -3,7 +3,6 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -13,10 +12,8 @@ module.exports = (env) => {
     const version = env ? env.version : 'dev';
     console.log(`Building for version : ${version}`);
     return {
-        mode: "production",
-        target: 'node',
-        devtool: 'source-map',
-        externals: [nodeExternals()],
+        devtool: 'cheap-source-map',
+        externals: ['apify', 'leveldown'],
         entry: {
             ['index']: path.resolve('./src/index.ts'),
         },
@@ -66,6 +63,7 @@ module.exports = (env) => {
         resolve: {
             extensions: ['.ts', '.js', '.json'],
             mainFields: ['main'], //This is fix for this issue https://www.gitmemory.com/issue/bitinn/node-fetch/450/494475397
-        }
+        },
+        target: 'node',
     };
 };
