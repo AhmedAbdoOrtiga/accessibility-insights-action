@@ -4,10 +4,12 @@
     "description": "This project welcomes contributions and suggestions.  Most contributions require you to agree to a\r Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us\r the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.",
     "main": "dist/index.js",
     "scripts": {
+        "buildncc": "ncc build src/index.ts -o ncc",
+        "cbuildncc": "npm-run-all --serial clean buildncc",
         "build": "webpack --config ./webpack.config.js",
         "watch:build": "webpack --config ./webpack.config.js --watch",
         "cbuild": "npm-run-all --serial clean build",
-        "clean": "rimraf dist test-results",
+        "clean": "rimraf dist test-results ncc",
         "cleanModules": "rimraf node_modules",
         "format:check": "prettier --check \"**/*\"",
         "format:fix": "prettier --write \"**/*\"",
@@ -63,7 +65,8 @@
         "typemoq": "^2.1.0",
         "typescript": "^4.1.2",
         "webpack": "^4.44.2",
-        "webpack-cli": "^4.2.0"
+        "webpack-cli": "^4.2.0",
+        "@vercel/ncc": "^0.26.1"
     },
     "dependencies": {
         "@actions/core": "^1.2.6",
