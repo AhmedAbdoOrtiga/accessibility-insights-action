@@ -35,6 +35,7 @@ export class Scanner {
 
     public async scan(): Promise<void> {
         let scanUrl: string;
+        let fail = false;
 
         try {
             await this.allProgressReporter.start();
@@ -62,8 +63,8 @@ export class Scanner {
 
             await this.allProgressReporter.completeRun(convertedData);
 
-            if(convertedData.results.urlResults.failedUrls>0){
-                await this.allProgressReporter.failRun('Fix your accessibility issues!');
+            if (convertedData.results.urlResults.failedUrls > 0) {
+                fail = true;
             }
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
@@ -71,6 +72,11 @@ export class Scanner {
         } finally {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
+        }
+
+        if (fail) {
+            this.logger.logInfo('Fix your accessibility issues!');
+            process.exit(1);
         }
     }
 
