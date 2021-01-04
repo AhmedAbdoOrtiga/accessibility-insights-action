@@ -2157,6 +2157,7 @@ let CrawlerEngine = class CrawlerEngine {
                     height: 1080,
                     deviceScaleFactor: 1,
                 },
+                stealth: true,
             },
         };
         if (!lodash_1.isEmpty(crawlerRunOptions.chromePath)) {
