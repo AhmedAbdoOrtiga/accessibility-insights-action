@@ -16,7 +16,7 @@ module.exports = (env) => {
         mode: "production",
         target: 'node',
         devtool: 'source-map',
-        externals: [nodeExternals()],
+        // externals: [nodeExternals()],
         entry: {
             ['index']: path.resolve('./src/index.ts'),
         },
