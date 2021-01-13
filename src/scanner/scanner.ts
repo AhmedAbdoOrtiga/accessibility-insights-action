@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { AIScanner } from 'accessibility-insights-scan';
 import { inject, injectable } from 'inversify';
 import * as path from 'path';
 import * as url from 'url';
@@ -13,30 +12,30 @@ import { AllProgressReporter } from '../progress-reporter/all-progress-reporter'
 import { ReportGenerator } from '../report/report-generator';
 import { TaskConfig } from '../task-config';
 import { PromiseUtils } from '../utils/promise-utils';
+import { AICrawler, CombinedScanResult, AICombinedReportDataConverter, ScanResultData } from 'accessibility-insights-scan-local';
+import { ConsolidatedReportGenerator } from '../report/consolidated-report-generator';
+import { AxeInfo } from '../axe/axe-info';
+import { CombinedReportParameters } from 'accessibility-insights-report';
+import { toolName } from '../content/strings';
 
 @injectable()
 export class Scanner {
     constructor(
         @inject(Logger) private readonly logger: Logger,
-        @inject(AIScanner) private readonly scanner: AIScanner,
-        @inject(ReportGenerator) private readonly reportGenerator: ReportGenerator,
+        @inject(ConsolidatedReportGenerator) private readonly reportGenerator: ConsolidatedReportGenerator,
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
         @inject(AllProgressReporter) private readonly allProgressReporter: AllProgressReporter,
         @inject(LocalFileServer) private readonly fileServer: LocalFileServer,
         @inject(PromiseUtils) private readonly promiseUtils: PromiseUtils,
         @inject(iocTypes.Process) protected readonly currentProcess: typeof process,
+        @inject(AICrawler) private readonly crawler: AICrawler,
+        @inject(AICombinedReportDataConverter) private readonly combinedReportDataConverter: AICombinedReportDataConverter,
+        @inject(AxeInfo) private readonly axeInfo: AxeInfo,
     ) {}
 
     public async scan(): Promise<void> {
-        // eslint-disable-next-line @typescript-eslint/require-await
-        await this.promiseUtils.waitFor(this.invokeScan(), 90000, async () => {
-            this.logger.logError('Unable to scan before timeout');
-            this.currentProcess.exit(1);
-        });
-    }
-
-    private async invokeScan(): Promise<void> {
         let scanUrl: string;
+        // let fail = false;
 
         try {
             await this.allProgressReporter.start();
@@ -48,11 +47,25 @@ export class Scanner {
             const chromePath = this.taskConfig.getChromePath();
             const axeCoreSourcePath = path.resolve(__dirname, 'axe.js');
 
-            const axeScanResults = await this.scanner.scan(scanUrl, chromePath, axeCoreSourcePath);
+            const scanStarted = new Date();
+            const combinedScanResult: CombinedScanResult = await this.crawler.crawl({
+                baseUrl: scanUrl,
+                crawl: true,
+                restartCrawl: true,
+                chromePath: chromePath,
+                axeSourcePath: axeCoreSourcePath,
+                localOutputDir: this.taskConfig.getReportOutDir(),
+            });
+            const scanEnded = new Date();
 
-            this.reportGenerator.generateReport(axeScanResults);
+            const convertedData = this.getConvertedData(combinedScanResult, scanStarted, scanEnded);
+            this.reportGenerator.generateReport(convertedData);
 
-            await this.allProgressReporter.completeRun(axeScanResults);
+            await this.allProgressReporter.completeRun(convertedData);
+
+            // if (convertedData.results.urlResults.failedUrls > 0) {
+            //     fail = true;
+            // }
         } catch (error) {
             this.logger.trackExceptionAny(error, `An error occurred while scanning website page ${scanUrl}.`);
             await this.allProgressReporter.failRun(util.inspect(error));
@@ -60,5 +73,24 @@ export class Scanner {
             this.fileServer.stop();
             this.logger.logInfo(`Accessibility scanning of URL ${scanUrl} completed.`);
         }
+
+        // if (fail) {
+        //     this.logger.logInfo('Fix your accessibility issues!');
+        //     process.exit(1);
+        // }
+    }
+
+    private getConvertedData(combinedScanResult: CombinedScanResult, scanStarted: Date, scanEnded: Date): CombinedReportParameters {
+        const scanResultData: ScanResultData = {
+            baseUrl: combinedScanResult.scanMetadata.baseUrl ?? 'n/a',
+            basePageTitle: combinedScanResult.scanMetadata.basePageTitle,
+            scanEngineName: toolName,
+            axeCoreVersion: this.axeInfo.version,
+            browserUserAgent: combinedScanResult.scanMetadata.userAgent,
+            urlCount: combinedScanResult.urlCount,
+            scanStarted,
+            scanEnded,
+        };
+        return this.combinedReportDataConverter.convertCrawlingResults(combinedScanResult.combinedAxeResults, scanResultData);
     }
 }

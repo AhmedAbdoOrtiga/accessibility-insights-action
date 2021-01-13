@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AxeReportParameters, ReporterFactory } from 'accessibility-insights-report';
-import { AxeScanResults } from 'accessibility-insights-scan';
+import { AxeScanResults } from 'accessibility-insights-scan-local';
 import * as filenamifyUrl from 'filenamify-url';
 import * as fs from 'fs';
 import { inject, injectable } from 'inversify';
@@ -14,7 +14,7 @@ import { TaskConfig } from '../task-config';
 export class ReportGenerator {
     constructor(
         @inject(TaskConfig) private readonly taskConfig: TaskConfig,
-        @inject(iocTypes.ReporterFactory)
+        @inject(iocTypes.ReportFactory)
         private readonly reporterFactoryFunc: ReporterFactory,
         @inject(Logger) private readonly logger: Logger,
         private readonly fileSystemObj: typeof fs = fs,
